@@ -54,3 +54,57 @@ tell score
 
 (optional) make high score board
 */
+
+
+/*-------------------------------- Constants --------------------------------*/
+
+
+
+/*-------------------------------- Variables --------------------------------*/
+
+let flag, mine, mineCount, gameState, square
+
+/*------------------------ Cached Element References ------------------------*/
+
+const board = document.querySelector('.board')
+const squares = document.querySelectorAll('.squares')
+
+/*----------------------------- Event Listeners -----------------------------*/
+
+
+
+/*-------------------------------- Functions --------------------------------*/
+
+
+init()
+
+function init() {
+    createBoard()
+}
+
+function createBoard() {
+    for (let x = 1; x < 11; x++) {
+        for (let y = 1; y < 11; y++) {
+            square = document.createElement('div')
+            board.appendChild(square)
+            square.className = 'squares'
+            square.setAttribute('row', x)
+            square.setAttribute('column', y)
+        }
+    }
+}
+
+
+board.addEventListener('click', handleClick)
+board.addEventListener('contextmenu', handleRightClick)
+
+function handleClick(evt) {
+    evt.preventDefault()
+    console.log('left click')
+    console.log(evt.target)
+}
+
+function handleRightClick(evt) {
+    evt.preventDefault()
+    console.log('right click')
+}

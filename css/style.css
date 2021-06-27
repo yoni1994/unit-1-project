@@ -1,0 +1,48 @@
+html {
+    box-sizing: border-box
+}
+  
+  /* The Universal Selector */
+*, /* All elements*/
+*::before, /* All ::before pseudo-elements */
+*::after { /* All ::after pseudo-elements */
+    /* height & width will now include border & padding by default
+       but can be over-ridden as needed */
+    box-sizing: inherit;
+}
+  
+body {
+    display: flex;
+    font-family: sans-serif;
+    margin: 0;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+section#hud {
+    background-color: lightgrey;
+    width: 50vmin;
+    height: 10vmin;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid black;
+    border-bottom: 1px;
+}
+
+section.board {
+    display: grid;
+    grid-template-rows: repeat(10, 5vmin);
+    grid-template-columns: repeat(10, 5vmin);
+    grid-gap: 0vmin;
+  }
+  
+  div {
+    background-color: lightgrey;
+    border: 1px solid black;
+    font-size: 12vmin;
+    text-align: center;
+    vertical-align: middle;
+  }
