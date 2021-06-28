@@ -69,10 +69,11 @@ let flag, mine, mineCount, gameState, square, row, column, isMined
 const board = document.querySelector('.board')
 const squares = document.querySelectorAll('.squares')
 const cells = document.getElementsByClassName('squares')
+const replayBtn = document.querySelector('#reset')
 
 /*----------------------------- Event Listeners -----------------------------*/
 
-
+replayBtn.addEventListener('click', init)
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -83,9 +84,11 @@ createBoard()
 
 //initiates the game
 function init() {
+    gameState = 'playing'
     for (let i = 0; i < cells.length; i++) {
         cells[i].innerText = ''
         cells[i].setAttribute('mine', 0)
+        cells[i].style.backgroundColor = 'lightgray'
     }
     mineCount = 0
     placeMines()
@@ -118,18 +121,21 @@ board.addEventListener('contextmenu', handleRightClick)
 //handle a left click
 function handleClick(evt) {
     evt.preventDefault()
-    // console.log('left click')
-    // console.log(evt.target)
+    if (gameState !== 'playing') return
     row = evt.target.getAttribute('row')
     column = evt.target.getAttribute('column')
     mine = evt.target.getAttribute('mine')
-    if (mine == 1) alert ('you lose')
-    console.log(row, column, isMined)
+    evt.target.style.backgroundColor = 'grey'
+    if (mine == 1) {
+        evt.target.style.backgroundColor = 'red'
+        gameOver()
+    }
 }
 
 //handle a left click and place a flag
 function handleRightClick(evt) {
     evt.preventDefault()
+    if (gameState !== 'playing') return
     if (evt.target.innerText !== 'F' && evt.target.innerText !== 'M' ) {
         evt.target.innerText = 'F'
     }
@@ -151,10 +157,19 @@ function placeMines() {
             if(row == rngRow && column == rngColumn && isMined == 0) {
                 cells[i].setAttribute('mine', 1)
                 console.log(cells[i].getAttribute('mine'))
-                cells[i].innerText='M'
                 mineCount++
                 break
             }
         }
 }
+}
+
+function gameOver() {
+    gameState = 'Lost'
+    for (let i = 0; i < cells.length; i++) {
+        if (cells[i].getAttribute('mine') == 1) {
+            cells[i].innerText = 'M'
+        }
+    }
+    console.log(gameState)
 }
