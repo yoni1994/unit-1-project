@@ -131,7 +131,8 @@ function handleClick(evt) {
         gameOver()
     }
     else {
-        setNumber(evt)
+        // setNumber(evt)
+        setNumber(row - 1, column - 1)
     }
 }
 
@@ -181,17 +182,47 @@ function gameOver() {
     console.log(gameState)
 }
 
-
 function setNumber(evt) {
     nearbyMines = 0
-    // console.log(row, column)
+    let cellRow
+    let cellColumn
     for (let i = 0; i < cells.length; i++) {
-        if (cells[i].getAttribute('row') == row && (cells[i].getAttribute('column') + 1 == column || cells[i].getAttribute('column') - 1 == column)) {
-            let cellRow = cells[i].getAttribute('row')
-            let cellColomn = cells[i].getAttribute('column')
-            console.log(cellRow, cellColomn)
+        cellRow = cells[i].getAttribute('row')
+        cellColumn = cells[i].getAttribute('column')
+        if (parseInt(cellRow) - 1 == row && (parseInt(cellColumn) + 1 == column || parseInt(cellColumn) - 1 == column || cellColumn == column)) {
+            console.log(cellRow, cellColumn)
+            nearbyMines++
+        }
+        else if (cellRow == row && (parseInt(cellColumn) + 1 == column || parseInt(cellColumn) - 1 == column)) {
+            console.log(cellRow, cellColumn)
+            nearbyMines++
+        }
+        else if (parseInt(cellRow) + 1 == row && (parseInt(cellColumn) + 1 == column || parseInt(cellColumn) - 1 == column || cellColumn == column)) {
+            console.log(cellRow, cellColumn)
             nearbyMines++
         }
     }
     console.log(nearbyMines)
+}
+
+
+function setNumber(newRow, newColumn) {
+    nearbyMines = 0
+    let cellRow
+    let cellColumn
+    if (newRow != row || newColumn != column) {
+        for (let i = 0; i < cells.length; i++) {
+            cellRow = cells[i].getAttribute('row')
+            cellColumn = cells[i].getAttribute('column')
+            if (cellRow == newRow && cellColumn == newColumn){
+                nearbyMines++
+        }
+        }
+    }
+    if (newRow < parseInt(row) + 1) {
+        setNumber(newRow+1, newColumn)
+    }
+    else if(newRow >= parseInt(row) + 1 && newColumn < parseInt(column) + 1) {
+        setNumber(row - 1, newColumn + 1)
+    }
 }
