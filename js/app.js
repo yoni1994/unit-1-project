@@ -62,7 +62,7 @@ tell score
 
 /*-------------------------------- Variables --------------------------------*/
 
-let flag, mine, mineCount, gameState, square, row, column
+let flag, mine, mineCount = 0, gameState, square, row, column, isMined
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -95,6 +95,10 @@ function createBoard() {
             square.className = 'squares'
             square.setAttribute('row', x)
             square.setAttribute('column', y)
+            square.setAttribute('mine', false)
+            // row = square.getAttribute('row')
+            // console.log(row)
+            // console.log(square.getAttribute('mine'))
         }
     }
     init()
@@ -112,10 +116,11 @@ function handleClick(evt) {
     // console.log(evt.target)
     row = evt.target.getAttribute('row')
     column = evt.target.getAttribute('column')
-    // console.log(row, column)
+    isMined = evt.target.getAttribute('mine')
+    console.log(row, column, isMined)
 }
 
-
+//handle a left click and place a flag
 function handleRightClick(evt) {
     evt.preventDefault()
     if (evt.target.innerText !== 'F') {
@@ -129,5 +134,20 @@ function handleRightClick(evt) {
 
 
 function placeMines() {
-
+//     while (mineCount < 15) {
+//         let rngRow = Math.floor(Math.random() * 10) + 1;
+//         console.log(rngRow)
+//         let rngColumn = Math.floor(Math.random() * 10) + 1;
+//         console.log(rngColumn)
+//         mineCount++
+// }
+    let cells = document.getElementsByClassName('squares')
+    for (let i = 0; i < cells.length; i++) {
+        row = cells[i].getAttribute('row')
+        console.log(row)
+    }
+    // cells.forEach(function(square) {
+    //     console.log(square.getAttribute('row'))
+    //     console.log(1)
+    // })
 }
