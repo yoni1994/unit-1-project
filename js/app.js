@@ -62,7 +62,7 @@ tell score
 
 /*-------------------------------- Variables --------------------------------*/
 
-let flag, mine, mineCount, gameState, square
+let flag, mine, mineCount, gameState, square, row, column
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -76,12 +76,17 @@ const squares = document.querySelectorAll('.squares')
 /*-------------------------------- Functions --------------------------------*/
 
 
-init()
+createBoard() 
+//creates the blank game boad once when loading the page
 
+
+//initiates the game
 function init() {
-    createBoard()
+    placeMines()
 }
 
+
+//make a 10X10 board and set the row and column number for each square
 function createBoard() {
     for (let x = 1; x < 11; x++) {
         for (let y = 1; y < 11; y++) {
@@ -92,19 +97,37 @@ function createBoard() {
             square.setAttribute('column', y)
         }
     }
+    init()
 }
 
 
 board.addEventListener('click', handleClick)
 board.addEventListener('contextmenu', handleRightClick)
 
+
+//handle a left click
 function handleClick(evt) {
     evt.preventDefault()
-    console.log('left click')
-    console.log(evt.target)
+    // console.log('left click')
+    // console.log(evt.target)
+    row = evt.target.getAttribute('row')
+    column = evt.target.getAttribute('column')
+    // console.log(row, column)
 }
+
 
 function handleRightClick(evt) {
     evt.preventDefault()
-    console.log('right click')
+    if (evt.target.innerText !== 'F') {
+        evt.target.innerText = 'F'
+    }
+    else {
+        evt.target.innerText = ''
+    }
+    // console.log('right click')
+}
+
+
+function placeMines() {
+    
 }
