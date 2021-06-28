@@ -121,6 +121,7 @@ board.addEventListener('contextmenu', handleRightClick)
 //handle a left click
 function handleClick(evt) {
     evt.preventDefault()
+    nearbyMines = 0
     if (gameState !== 'playing' || evt.target.innerText === 'F' || evt.target.style.backgroundColor === 'gray') return
     row = evt.target.getAttribute('row')
     column = evt.target.getAttribute('column')
@@ -131,7 +132,6 @@ function handleClick(evt) {
         gameOver()
     }
     else {
-        // setNumber(evt)
         setNumber(row - 1, column - 1)
     }
 }
@@ -146,7 +146,6 @@ function handleRightClick(evt) {
     else if (evt.target.innerText === 'F'){
         evt.target.innerText = ''
     }
-    // console.log('right click')
 }
 
 //places 15 mines in random cells
@@ -160,9 +159,8 @@ function placeMines() {
             isMined = cells[i].getAttribute('mine')
             if(row == rngRow && column == rngColumn && isMined == 0) {
                 cells[i].setAttribute('mine', 1)
-                console.log(cells[i].getAttribute('mine'))
+                cells[i].innerText = 'M'
                 mineCount++
-                // console.log(cells[i])
                 break
             }
         }
@@ -182,41 +180,21 @@ function gameOver() {
     console.log(gameState)
 }
 
-function setNumber(evt) {
-    nearbyMines = 0
-    let cellRow
-    let cellColumn
-    for (let i = 0; i < cells.length; i++) {
-        cellRow = cells[i].getAttribute('row')
-        cellColumn = cells[i].getAttribute('column')
-        if (parseInt(cellRow) - 1 == row && (parseInt(cellColumn) + 1 == column || parseInt(cellColumn) - 1 == column || cellColumn == column)) {
-            console.log(cellRow, cellColumn)
-            nearbyMines++
-        }
-        else if (cellRow == row && (parseInt(cellColumn) + 1 == column || parseInt(cellColumn) - 1 == column)) {
-            console.log(cellRow, cellColumn)
-            nearbyMines++
-        }
-        else if (parseInt(cellRow) + 1 == row && (parseInt(cellColumn) + 1 == column || parseInt(cellColumn) - 1 == column || cellColumn == column)) {
-            console.log(cellRow, cellColumn)
-            nearbyMines++
-        }
-    }
-    console.log(nearbyMines)
-}
-
-
 function setNumber(newRow, newColumn) {
-    nearbyMines = 0
+    nearbyMines
     let cellRow
     let cellColumn
     if (newRow != row || newColumn != column) {
         for (let i = 0; i < cells.length; i++) {
             cellRow = cells[i].getAttribute('row')
             cellColumn = cells[i].getAttribute('column')
+            cellMine = cells[i].getAttribute('mine')
             if (cellRow == newRow && cellColumn == newColumn){
-                nearbyMines++
-        }
+                if (cellMine == 1) {
+                    console.log('we found a mine', cellRow, cellColumn)
+                    nearbyMines++
+                }
+            }
         }
     }
     if (newRow < parseInt(row) + 1) {
@@ -225,4 +203,5 @@ function setNumber(newRow, newColumn) {
     else if(newRow >= parseInt(row) + 1 && newColumn < parseInt(column) + 1) {
         setNumber(row - 1, newColumn + 1)
     }
+    console.log(nearbyMines)
 }
