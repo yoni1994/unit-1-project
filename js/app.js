@@ -62,7 +62,7 @@ tell score
 
 /*-------------------------------- Variables --------------------------------*/
 
-let flag, mine, mineCount, gameState, square, row, column, isMined
+let flag, mine, mineCount, gameState, square, row, column, isMined, nearbyMines
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -121,14 +121,17 @@ board.addEventListener('contextmenu', handleRightClick)
 //handle a left click
 function handleClick(evt) {
     evt.preventDefault()
-    if (gameState !== 'playing') return
+    if (gameState !== 'playing' || evt.target.innerText === 'F' || evt.target.style.backgroundColor === 'gray') return
     row = evt.target.getAttribute('row')
     column = evt.target.getAttribute('column')
     mine = evt.target.getAttribute('mine')
-    evt.target.style.backgroundColor = 'grey'
+    evt.target.style.backgroundColor = 'gray'
     if (mine == 1) {
         evt.target.style.backgroundColor = 'red'
         gameOver()
+    }
+    else {
+        setNumber(evt)
     }
 }
 
@@ -136,7 +139,7 @@ function handleClick(evt) {
 function handleRightClick(evt) {
     evt.preventDefault()
     if (gameState !== 'playing') return
-    if (evt.target.innerText !== 'F' && evt.target.innerText !== 'M' ) {
+    if (evt.target.innerText !== 'F') {
         evt.target.innerText = 'F'
     }
     else if (evt.target.innerText === 'F'){
@@ -158,6 +161,7 @@ function placeMines() {
                 cells[i].setAttribute('mine', 1)
                 console.log(cells[i].getAttribute('mine'))
                 mineCount++
+                // console.log(cells[i])
                 break
             }
         }
@@ -167,9 +171,27 @@ function placeMines() {
 function gameOver() {
     gameState = 'Lost'
     for (let i = 0; i < cells.length; i++) {
-        if (cells[i].getAttribute('mine') == 1) {
+        if (cells[i].getAttribute('mine') == 1 && cells[i].innerText !== 'F') {
             cells[i].innerText = 'M'
+        }
+        if(cells[i].getAttribute('mine') != 1 && cells[i].innerText === 'F') {
+            cells[i].innerText = 'X'
         }
     }
     console.log(gameState)
+}
+
+
+function setNumber(evt) {
+    nearbyMines = 0
+    // console.log(row, column)
+    for (let i = 0; i < cells.length; i++) {
+        if (cells[i].getAttribute('row') == row && (cells[i].getAttribute('column') + 1 == column || cells[i].getAttribute('column') - 1 == column)) {
+            let cellRow = cells[i].getAttribute('row')
+            let cellColomn = cells[i].getAttribute('column')
+            console.log(cellRow, cellColomn)
+            nearbyMines++
+        }
+    }
+    console.log(nearbyMines)
 }
