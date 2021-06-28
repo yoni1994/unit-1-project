@@ -209,5 +209,12 @@ function countMines(newRow, newColumn) {
 
 function setNumber(evt) {
     evt.target.innerText = nearbyMines
-    
+    if (nearbyMines === 1) evt.target.style.color = 'blue'
+    if (nearbyMines === 2) evt.target.style.color = 'green'
+    if (nearbyMines === 3) evt.target.style.color = 'red'
+    if (nearbyMines === 4) evt.target.style.color = 'purple'
+    if (nearbyMines === 5) evt.target.style.color = 'maroon'
+    if (nearbyMines === 6) evt.target.style.color = 'turquoise'
+    if (nearbyMines === 7) evt.target.style.color = 'black'
+    if (nearbyMines === 8) evt.target.style.color = 'darkgray'
 }
