@@ -129,5 +129,5 @@ function handleRightClick(evt) {
 
 
 function placeMines() {
-    
+
 }
