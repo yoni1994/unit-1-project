@@ -89,6 +89,7 @@ function init() {
         cells[i].innerText = ''
         cells[i].setAttribute('mine', 0)
         cells[i].style.backgroundColor = 'lightgray'
+        cells[i].style.color = 'black'
     }
     mineCount = 0
     placeMines()
@@ -132,7 +133,8 @@ function handleClick(evt) {
         gameOver()
     }
     else {
-        setNumber(row - 1, column - 1)
+        countMines(row - 1, column - 1)
+        setNumber(evt)
     }
 }
 
@@ -150,7 +152,7 @@ function handleRightClick(evt) {
 
 //places 15 mines in random cells
 function placeMines() {
-    while (mineCount < 15) {
+    while (mineCount < 50) {
         let rngRow = Math.floor(Math.random() * 10) + 1;
         let rngColumn = Math.floor(Math.random() * 10) + 1;
         for (let i = 0; i < cells.length; i++) {
@@ -180,7 +182,7 @@ function gameOver() {
     console.log(gameState)
 }
 
-function setNumber(newRow, newColumn) {
+function countMines(newRow, newColumn) {
     nearbyMines
     let cellRow
     let cellColumn
@@ -198,10 +200,14 @@ function setNumber(newRow, newColumn) {
         }
     }
     if (newRow < parseInt(row) + 1) {
-        setNumber(newRow+1, newColumn)
+        countMines(newRow+1, newColumn)
     }
     else if(newRow >= parseInt(row) + 1 && newColumn < parseInt(column) + 1) {
-        setNumber(row - 1, newColumn + 1)
+        countMines(row - 1, newColumn + 1)
     }
-    console.log(nearbyMines)
+}
+
+function setNumber(evt) {
+    evt.target.innerText = nearbyMines
+    
 }
