@@ -62,12 +62,13 @@ tell score
 
 /*-------------------------------- Variables --------------------------------*/
 
-let flag, mine, mineCount = 0, gameState, square, row, column, isMined
+let flag, mine, mineCount, gameState, square, row, column, isMined
 
 /*------------------------ Cached Element References ------------------------*/
 
 const board = document.querySelector('.board')
 const squares = document.querySelectorAll('.squares')
+const cells = document.getElementsByClassName('squares')
 
 /*----------------------------- Event Listeners -----------------------------*/
 
@@ -82,6 +83,11 @@ createBoard()
 
 //initiates the game
 function init() {
+    for (let i = 0; i < cells.length; i++) {
+        cells[i].innerText = ''
+        cells[i].setAttribute('mine', 0)
+    }
+    mineCount = 0
     placeMines()
 }
 
@@ -95,7 +101,7 @@ function createBoard() {
             square.className = 'squares'
             square.setAttribute('row', x)
             square.setAttribute('column', y)
-            square.setAttribute('mine', false)
+            square.setAttribute('mine', 0)
             // row = square.getAttribute('row')
             // console.log(row)
             // console.log(square.getAttribute('mine'))
@@ -116,38 +122,39 @@ function handleClick(evt) {
     // console.log(evt.target)
     row = evt.target.getAttribute('row')
     column = evt.target.getAttribute('column')
-    isMined = evt.target.getAttribute('mine')
+    mine = evt.target.getAttribute('mine')
+    if (mine == 1) alert ('you lose')
     console.log(row, column, isMined)
 }
 
 //handle a left click and place a flag
 function handleRightClick(evt) {
     evt.preventDefault()
-    if (evt.target.innerText !== 'F') {
+    if (evt.target.innerText !== 'F' && evt.target.innerText !== 'M' ) {
         evt.target.innerText = 'F'
     }
-    else {
+    else if (evt.target.innerText === 'F'){
         evt.target.innerText = ''
     }
     // console.log('right click')
 }
 
-
+//places 15 mines in random cells
 function placeMines() {
-//     while (mineCount < 15) {
-//         let rngRow = Math.floor(Math.random() * 10) + 1;
-//         console.log(rngRow)
-//         let rngColumn = Math.floor(Math.random() * 10) + 1;
-//         console.log(rngColumn)
-//         mineCount++
-// }
-    let cells = document.getElementsByClassName('squares')
-    for (let i = 0; i < cells.length; i++) {
-        row = cells[i].getAttribute('row')
-        console.log(row)
-    }
-    // cells.forEach(function(square) {
-    //     console.log(square.getAttribute('row'))
-    //     console.log(1)
-    // })
+    while (mineCount < 15) {
+        let rngRow = Math.floor(Math.random() * 10) + 1;
+        let rngColumn = Math.floor(Math.random() * 10) + 1;
+        for (let i = 0; i < cells.length; i++) {
+            row = cells[i].getAttribute('row')
+            column = cells[i].getAttribute('column')
+            isMined = cells[i].getAttribute('mine')
+            if(row == rngRow && column == rngColumn && isMined == 0) {
+                cells[i].setAttribute('mine', 1)
+                console.log(cells[i].getAttribute('mine'))
+                cells[i].innerText='M'
+                mineCount++
+                break
+            }
+        }
+}
 }
