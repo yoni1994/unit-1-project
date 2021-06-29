@@ -62,7 +62,7 @@ tell score
 
 /*-------------------------------- Variables --------------------------------*/
 
-let flagCount, mine, mineCount, gameState, square, row, column, isMined, haveBubbled, nearbyCells, newBubbleRow, newBubbleColumn
+let flagCount, mine, mineCount, gameState, square, row, column, isMined, haveBubbled, nearbyCells, newBubbleRow, newBubbleColumn, clickedSquares
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -93,7 +93,10 @@ function init() {
     }
     mineCount = 0
     flagCount = 0
+    clickedSquares = 0
     placeMines()
+    winCount = cells.length - mineCount
+    console.log(winCount)
     giveCellsNeighborValues()
 }
 
@@ -130,13 +133,21 @@ function handleClick(evt) {
     row = evt.target.getAttribute('data-row')
     column = evt.target.getAttribute('data-column')
     mine = evt.target.getAttribute('data-mine')
-    evt.target.style.backgroundColor = 'gray'
+    neighborMines = evt.target.getAttribute('data-nearby-mine-cells')
     if (mine == 1) {
         evt.target.style.backgroundColor = 'red'
         gameOver()
     }
+    // else if (neighborMines == 0) {
+    //     bubble(evt.target)
+    // }
     else {
-        setNumber(evt)
+        setNumber(evt.target)
+        clickedSquares++
+        console.log(clickedSquares)
+        if (clickedSquares === winCount) {
+            winner()
+        }
     }
 }
 
@@ -156,7 +167,7 @@ function handleRightClick(evt) {
 
 //places 15 mines in random cells
 function placeMines() {
-    while (mineCount < 15) {
+    while (mineCount < 95) {
         let rngRow = Math.floor(Math.random() * 10) + 1;
         let rngColumn = Math.floor(Math.random() * 10) + 1;
         for (let i = 0; i < cells.length; i++) {
@@ -170,21 +181,16 @@ function placeMines() {
                 break
             }
         }
-}
+    }
 }
 
-function gameOver() {
-    gameState = 'Lost'
+function giveCellsNeighborValues() {
     for (let i = 0; i < cells.length; i++) {
-        if (cells[i].getAttribute('data-mine') == 1 && cells[i].innerText !== 'F') {
-            cells[i].innerText = 'M'
-        }
-        if(cells[i].getAttribute('data-mine') != 1 && cells[i].innerText === 'F') {
-            cells[i].innerText = 'X'
-        }
+        cells[i].setAttribute('data-nearby-mine-cells', countMines(cells[i]))
     }
-    console.log(gameState)
 }
+
+
 
 function countMines(cell) {
     let nearbyMines = 0
@@ -216,42 +222,83 @@ function countMines(cell) {
             const bottomLeftCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn-1}']`)
             if (bottomLeftCell.getAttribute('data-mine') == 1) nearbyMines++
         }
-        const topMiddleCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn}']`)
-        if (topMiddleCell.getAttribute('data-mine') == 1) nearbyMines++
+        const bottomMiddleCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn}']`)
+        if (bottomMiddleCell.getAttribute('data-mine') == 1) nearbyMines++
         if (cellColumn != 10) {
-            const topRightCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn+1}']`)
-            if (topRightCell.getAttribute('data-mine') == 1) nearbyMines++
+            const bottomRightCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn+1}']`)
+            if (bottomRightCell.getAttribute('data-mine') == 1) nearbyMines++
         }
     }
     return nearbyMines
 }
 
 
-function setNumber(evt) {
-    evt.target.innerText = evt.target.getAttribute('data-nearby-mine-cells')
-    let cellNumber = evt.target.getAttribute('data-nearby-mine-cells')
-    if (cellNumber == 0) evt.target.style.fontSize = '0'
-    if (cellNumber == 1) evt.target.style.color = 'blue'
-    if (cellNumber == 2) evt.target.style.color = 'green'
-    if (cellNumber == 3) evt.target.style.color = 'red'
-    if (cellNumber == 4) evt.target.style.color = 'purple'
-    if (cellNumber == 5) evt.target.style.color = 'maroon'
-    if (cellNumber == 6) evt.target.style.color = 'turquoise'
-    if (cellNumber == 7) evt.target.style.color = 'black'
-    if (cellNumber == 8) evt.target.style.color = 'darkgray'
+function setNumber(cell) {
+    let surroundingMines = cell.getAttribute('data-nearby-mine-cells')
+    cell.innerText = surroundingMines
+    cell.style.backgroundColor = 'gray'
+    if (surroundingMines == 0) cell.style.fontSize = '0'
+    if (surroundingMines == 1) cell.style.color = 'blue'
+    if (surroundingMines == 2) cell.style.color = 'green'
+    if (surroundingMines == 3) cell.style.color = 'red'
+    if (surroundingMines == 4) cell.style.color = 'purple'
+    if (surroundingMines == 5) cell.style.color = 'maroon'
+    if (surroundingMines == 6) cell.style.color = 'turquoise'
+    if (surroundingMines == 7) cell.style.color = 'black'
+    if (surroundingMines == 8) cell.style.color = 'darkgray'
 }
 
-// function bubble(bubbleRow, bubbleColumn) {
-//     haveBubbled = 1
-    /* setNumber(evt)*/
-//     newBubbleRow = bubbleRow
-//     newBubbleColumn = bubbleColumn
-//         countMines(bubbleRow, bubbleColumn)
-    
-// }
 
-function giveCellsNeighborValues() {
+
+// function bubble(cell) {
+    //     setNumber(cell)
+    //     let right, left, down, up
+    //     let cellRow = parseInt(cell.getAttribute('data-row'))
+    //     let cellColumn = parseInt(cell.getAttribute('data-column'))
+    //     let nearbyMines = cell.getAttribute('data-nearby-mine-cells')
+    //     if (nearbyMines == 0) {
+        //         if (cellRow < 10) {
+            //             console.log('test right')
+            //             console.log(cellRow)
+            //             let newCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn}']`)
+            //             bubble(newCell)
+            //             right = 'done'
+            //         }
+            //         else {
+                //             right = 'done'
+                //         }
+                //         if (right === 'done' && cellColumn < 10) {
+                    //             console.log('test down')
+                    //             let newCell = document.querySelector(`[data-row='${cellRow}'][data-column='${cellColumn+1}']`)
+                    //             bubble(newCell)
+                    //         }
+                    //         else if (cellRow > 1) {
+                        //             // console.log('test left')
+                        //             let newCell = document.querySelector(`[data-row='${cellRow-1}'][data-column='${cellColumn}']`)
+                        //             bubble(newCell)
+                        //         }
+                        //         else if (cellColumn > 1) {
+                            //             // console.log('test up')
+                            //             let newCell = document.querySelector(`[data-row='${cellRow}'][data-column='${cellColumn-1}']`)
+                            //             bubble(newCell)
+                            //         }
+                            //     }
+                            // }
+                            
+                            
+function gameOver() {
+    gameState = 'Lost'
     for (let i = 0; i < cells.length; i++) {
-        cells[i].setAttribute('data-nearby-mine-cells', countMines(cells[i]))
+        if (cells[i].getAttribute('data-mine') == 1 && cells[i].innerText !== 'F') {
+            cells[i].innerText = 'M'
+        }
+        if(cells[i].getAttribute('data-mine') != 1 && cells[i].innerText === 'F') {
+            cells[i].innerText = 'X'
+        }
     }
+}
+
+function winner() {
+    gameState = 'Won'
+    alert('congrats! you win!')
 }
