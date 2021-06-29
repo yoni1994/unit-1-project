@@ -156,7 +156,7 @@ function handleRightClick(evt) {
 
 //places 15 mines in random cells
 function placeMines() {
-    while (mineCount < 30) {
+    while (mineCount < 15) {
         let rngRow = Math.floor(Math.random() * 10) + 1;
         let rngColumn = Math.floor(Math.random() * 10) + 1;
         for (let i = 0; i < cells.length; i++) {
@@ -228,26 +228,27 @@ function countMines(cell) {
 
 
 function setNumber(evt) {
-    console.log(nearbyMines)
-    evt.target.innerText = nearbyMines
-    if (nearbyMines === 1) evt.target.style.color = 'blue'
-    if (nearbyMines === 2) evt.target.style.color = 'green'
-    if (nearbyMines === 3) evt.target.style.color = 'red'
-    if (nearbyMines === 4) evt.target.style.color = 'purple'
-    if (nearbyMines === 5) evt.target.style.color = 'maroon'
-    if (nearbyMines === 6) evt.target.style.color = 'turquoise'
-    if (nearbyMines === 7) evt.target.style.color = 'black'
-    if (nearbyMines === 8) evt.target.style.color = 'darkgray'
+    evt.target.innerText = evt.target.getAttribute('data-nearby-mine-cells')
+    let cellNumber = evt.target.getAttribute('data-nearby-mine-cells')
+    if (cellNumber == 0) evt.target.style.fontSize = '0'
+    if (cellNumber == 1) evt.target.style.color = 'blue'
+    if (cellNumber == 2) evt.target.style.color = 'green'
+    if (cellNumber == 3) evt.target.style.color = 'red'
+    if (cellNumber == 4) evt.target.style.color = 'purple'
+    if (cellNumber == 5) evt.target.style.color = 'maroon'
+    if (cellNumber == 6) evt.target.style.color = 'turquoise'
+    if (cellNumber == 7) evt.target.style.color = 'black'
+    if (cellNumber == 8) evt.target.style.color = 'darkgray'
 }
 
-function bubble(bubbleRow, bubbleColumn) {
-    haveBubbled = 1
-    // setNumber(evt)
-    newBubbleRow = bubbleRow
-    newBubbleColumn = bubbleColumn
-        countMines(bubbleRow, bubbleColumn)
+// function bubble(bubbleRow, bubbleColumn) {
+//     haveBubbled = 1
+    /* setNumber(evt)*/
+//     newBubbleRow = bubbleRow
+//     newBubbleColumn = bubbleColumn
+//         countMines(bubbleRow, bubbleColumn)
     
-}
+// }
 
 function giveCellsNeighborValues() {
     for (let i = 0; i < cells.length; i++) {
