@@ -1,5 +1,5 @@
 html {
-    box-sizing: border-box
+  box-sizing: border-box
 }
   
   /* The Universal Selector */
@@ -8,47 +8,67 @@ html {
 *::after { /* All ::after pseudo-elements */
     /* height & width will now include border & padding by default
        but can be over-ridden as needed */
-    box-sizing: inherit;
+  box-sizing: inherit;
 }
   
 body {
-    display: flex;
-    font-family: sans-serif;
-    margin: 0;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    flex-direction: column;
+  display: flex;
+  font-family: sans-serif;
+  margin: 0;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  flex-direction: column;
 }
 
 section#hud {
-    background-color: lightgrey;
-    width: 75vmin;
-    height: 12.5vmin;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid black;
-    border-bottom: 1px;
+  background-color: lightgrey;
+  display: flex;
+  flex: 33% 1fr 33%;
+  width: 75vmin;
+  height: 12.5vmin;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid black;
+  border-bottom: 1px;
+  font-size: 4vmin;
 }
 
 section.board {
-    display: grid;
-    grid-template-rows: repeat(10, 7.5vmin);
-    grid-template-columns: repeat(10, 7.5vmin);
-    grid-gap: 0vmin;
-  }
+  display: grid;
+  grid-template-rows: repeat(10, 7.5vmin);
+  grid-template-columns: repeat(10, 7.5vmin);
+  grid-gap: 0vmin;
+}
   
-  div {
-    background-color: lightgrey;
-    border: 1px solid black;
-    font-size: 7vmin;
-    text-align: center;
-    vertical-align: middle;
-    align-items: center;
-    justify-content: center;
-  }
+.squares {
+  background-color: lightgrey;
+  border: 1px solid black;
+  font-size: 7vmin;
+  text-align: center;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+}
 
-  #reset {
-    margin: 4.5vmin auto;
-  }
+#reset {
+  margin: 4.5vmin 7vmin;
+  height: 6vmin;
+  width: 6vmin;
+  font-size: 4vmin;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+#flag-count {
+  background-color: black;
+  border: 1px solid black;
+  color: red;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  height: 6vmin;
+  width: 20vmin;
+}

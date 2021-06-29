@@ -70,6 +70,7 @@ const board = document.querySelector('.board')
 const squares = document.querySelectorAll('.squares')
 const cells = document.getElementsByClassName('squares')
 const replayBtn = document.querySelector('#reset')
+const flagCounter = document.querySelector('#flag-count')
 
 /*----------------------------- Event Listeners -----------------------------*/
 
@@ -98,6 +99,7 @@ function init() {
     winCount = cells.length - mineCount
     console.log(winCount)
     giveCellsNeighborValues()
+    flagCounter.innerHTML = mineCount - flagCount
 }
 
 
@@ -158,16 +160,18 @@ function handleRightClick(evt) {
     if (evt.target.innerText !== 'F') {
         evt.target.innerText = 'F'
         flagCount++
+        
     }
     else if (evt.target.innerText === 'F'){
         evt.target.innerText = ''
         flagCount--
     }
+    flagCounter.innerHTML = mineCount - flagCount
 }
 
 //places 15 mines in random cells
 function placeMines() {
-    while (mineCount < 95) {
+    while (mineCount < 20) {
         let rngRow = Math.floor(Math.random() * 10) + 1;
         let rngColumn = Math.floor(Math.random() * 10) + 1;
         for (let i = 0; i < cells.length; i++) {
