@@ -124,7 +124,6 @@ board.addEventListener('contextmenu', handleRightClick)
 
 //handle a left click
 function handleClick(evt) {
-    evt.preventDefault()
     nearbyCells = []
     haveBubbled = 0
     if (gameState !== 'playing' || evt.target.innerText === 'F' || evt.target.style.backgroundColor === 'gray') return
@@ -157,7 +156,7 @@ function handleRightClick(evt) {
 
 //places 15 mines in random cells
 function placeMines() {
-    while (mineCount < 15) {
+    while (mineCount < 30) {
         let rngRow = Math.floor(Math.random() * 10) + 1;
         let rngColumn = Math.floor(Math.random() * 10) + 1;
         for (let i = 0; i < cells.length; i++) {
@@ -205,80 +204,27 @@ function countMines(cell) {
         }
     }
     if (cellColumn != 1) {
-        const LeftCell = document.querySelector(`[data-row='${cellRow-1}'][data-column='${cellColumn+1}']`)
+        const LeftCell = document.querySelector(`[data-row='${cellRow}'][data-column='${cellColumn-1}']`)
         if (LeftCell.getAttribute('data-mine') == 1) nearbyMines++
     }
     if (cellColumn != 10) {
-
+        const RightCell = document.querySelector(`[data-row='${cellRow}'][data-column='${cellColumn+1}']`)
+        if (RightCell.getAttribute('data-mine') == 1) nearbyMines++
     }
     if (cellRow !== 10) {
         if (cellColumn != 1) {
-
+            const bottomLeftCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn-1}']`)
+            if (bottomLeftCell.getAttribute('data-mine') == 1) nearbyMines++
         }
+        const topMiddleCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn}']`)
+        if (topMiddleCell.getAttribute('data-mine') == 1) nearbyMines++
         if (cellColumn != 10) {
-
+            const topRightCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn+1}']`)
+            if (topRightCell.getAttribute('data-mine') == 1) nearbyMines++
         }
     }
-
-    // for (let i = 0; i < cells.length; i++) {
-    //     newCellRow = cells[i].getAttribute('data-row')
-    //     newCellColumn = cells[i].getAttribute('data-column')
-    //     newCellMine = cells[i].getAttribute('data-mine')
-    //     if (cellRow == newCellRow && cellColumn == newCellColumn){
-    //         if (cellMine == 1) {
-    //             nearbyMines++
-    //         }
-    //     }
-    // }
-    // if (newCellRow < parseInt(row) + 1) {
-    //     countMines(newCellRow+1, newCellColumn)
-    // }
-    // else if(newCellRow >= parseInt(row) + 1 && newCellColumn < parseInt(column) + 1) {
-    //     countMines(cellRow - 1, newCellColumn + 1)
-    // }
     return nearbyMines
 }
-
-
-
-    // let cellRow
-    // let cellColumn
-    // if (newRow != row || newColumn != column) {
-    //     for (let i = 0; i < cells.length; i++) {
-    //         cellRow = cells[i].getAttribute('data-row')
-    //         cellColumn = cells[i].getAttribute('data-column')
-    //         cellMine = cells[i].getAttribute('data-mine')
-    //         if (cellRow == newRow && cellColumn == newColumn){
-    //             nearbyCells.push(cells[i])
-    //             if (cellMine == 1) {
-    //                 nearbyMines++
-    //             }
-    //         }
-    //     }
-    // }
-    // if (newRow < parseInt(row) + 1) {
-    //     countMines(newRow+1, newColumn)
-    // }
-    // else if(newRow >= parseInt(row) + 1 && newColumn < parseInt(column) + 1) {
-    //     countMines(row - 1, newColumn + 1)
-    // }
-    // if (nearbyMines === 0) {
-    //     let bubbleArray = bubble(row, column, [])
-    //     doBubble(bubbleArray)
-    // }
-    // if (nearbyMines === 0) {
-    //     if (haveBubbled === 0) {
-    //         newBubbleRow = parseInt(row)+1
-    //         newBubbleColumn = parseInt(column)
-    //     }
-    //     else if (haveBubbled === 1 && row < 10){
-    //         newBubbleRow++
-    //     }
-    //     console.log(newBubbleRow, newBubbleColumn)
-    //     if(newBubbleRow <= 10 && newBubbleColumn <= 10) {
-    //         bubble(newBubbleRow, newBubbleColumn)
-    //     }
-    // }
 
 
 function setNumber(evt) {
@@ -302,46 +248,6 @@ function bubble(bubbleRow, bubbleColumn) {
         countMines(bubbleRow, bubbleColumn)
     
 }
-
-// function bubble(bubbleRow, bubbleColumn, checked) {
-//     let bubbleSquares = []
-
-//     for (let i = 0; i < cells.length; i++) {
-//         let bubbleCellRow = cells[i].getAttribute('data-row')
-//         let bubbleCellColumn = cells[i].getAttribute('data-column')
-//         let bubbleCellMine = cells[i].getAttribute('data-mine')
-//         if (bubbleCellRow == bubbleRow && bubbleCellColumn == bubbleColumn) {
-//             if (checked.includes(cells[i])) return []
-//             checked.push(cells[i])
-//         }
-//     }
-//     nearbyCells.forEach(function(nearbyCell) {
-//         let nearbyCellRow = nearbyCell.getAttribute('data-row')
-//         let nearbyCellColumn = nearbyCell.getAttribute('data-column')
-//         let nearbyCellMine = nearbyCell.getAttribute('data-mine')
-//         if (nearbyCellMine == 0 && nearbyCell.innerText !== 'F') {
-//             if (!checked.includes(nearbyCell)) {
-//                 bubbleSquares.push(nearbyCell)
-//             }
-//             if (nearbyCellMine == 0) {
-//                 bubbleSquares = bubbleSquares.concat(bubble(nearbyCellRow, nearbyCellColumn, checked))
-//             }
-//         }
-//     })
-//     return (bubbleSquares)
-// }
-
-
-// function doBubble(bubbleCells) {
-//     bubbleCells.forEach(function(bubbleCell) {
-//         let bubbleCellRow = bubbleCell.getAttribute('data-row')
-//         let bubbleCellColumn = bubbleCell.getAttribute('data-column')
-//         let bubbleCellMine = bubbleCell.getAttribute('data-mine')
-//         bubbleCell.style.backgroundColor = 'gray'
-//         bubble(bubbleCellRow, bubbleCellColumn, [])
-//     })
-// }
-
 
 function giveCellsNeighborValues() {
     for (let i = 0; i < cells.length; i++) {
