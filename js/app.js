@@ -57,7 +57,13 @@ tell score
 
 
 /*-------------------------------- Constants --------------------------------*/
-
+const colorScheme = {
+    dark: '',
+    change: function() {
+        colorScheme.dark = colorScheme.dark ? '' : 'dark'
+        document.querySelector('body').setAttribute('class', colorScheme.dark)
+    }
+}
 
 
 /*-------------------------------- Variables --------------------------------*/
@@ -73,12 +79,14 @@ const replayBtn = document.querySelector('#reset')
 const flagCounter = document.querySelector('#flag-count')
 const end = document.querySelector('#end-section')
 const message = document.querySelector('#end-game-message')
+const lightDarkBtn = document.querySelector('#light-dark-button')
 
 /*----------------------------- Event Listeners -----------------------------*/
 
 replayBtn.addEventListener('click', function() {
     document.location.reload(true)
 })
+lightDarkBtn.addEventListener('click', colorScheme.change)
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -95,8 +103,8 @@ function init() {
     for (let i = 0; i < cells.length; i++) {
         cells[i].innerText = ''
         cells[i].setAttribute('data-mine', 0)
-        cells[i].style.backgroundColor = 'lightgray'
-        cells[i].style.color = 'black'
+        // cells[i].style.backgroundColor = 'lightgray'
+        // cells[i].style.color = 'black'
     }
     mineCount = 0
     flagCount = 0
@@ -340,9 +348,7 @@ function checkForWinner() {
     let grayCount = 0
     for (let i = 0; i < cells.length; i++) {
         if (cells[i].style.backgroundColor === 'gray') grayCount++
-        console.log(grayCount)
     }
-    console.log(grayCount, winCount)
     if (grayCount == winCount) {
         winner()
     }
