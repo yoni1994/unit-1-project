@@ -68,12 +68,12 @@ const colorScheme = {
 
 /*-------------------------------- Variables --------------------------------*/
 
-let flagCount, mine, mineCount, gameState, square, row, column, isMined, clickedSquares, checked, neighbors, boardHeight, boardWidth, minesToPlace, size, mineChoice
+let flagCount, mine, mineCount, gameState, square, row, column, isMined, clickedSquares, checked, neighbors, boardHeight, boardWidth, minesToPlace, size, mineChoice, jsFlag
 
 /*------------------------ Cached Element References ------------------------*/
 
 const board = document.querySelector('.board')
-const squares = document.querySelectorAll('.squares')
+// const squares = document.querySelectorAll('.squares')
 const cells = document.getElementsByClassName('squares')
 const replayBtn = document.querySelector('#reset')
 const flagCounter = document.querySelector('#flag-count')
@@ -98,6 +98,7 @@ const failedInput = document.querySelector('#failed-input')
 const failedMineInput = document.querySelector('#failed-mine-input')
 const intro = document.querySelector('#intro')
 const game = document.querySelector('#game')
+const flagSymbol = document.querySelector('#flag-symbol')
 
 
 
@@ -112,7 +113,6 @@ easy.addEventListener('click', handleEasy)
 medium.addEventListener('click', handleMedium)
 hard.addEventListener('click', handleHard)
 custom.addEventListener('click', handleCustom)
-// sizeInput.addEventListener('submit', handleFormSubmit)
 customBtn.addEventListener('click', handleCustomOptions)
 mineBtn.addEventListener('click', handleCustomMineOptions)
 
@@ -146,23 +146,8 @@ function handleHard() {
     createBoard() 
 }
 
-// function handleFormSubmit(evt) {
-//     evt.preventDefault()
-//     console.log('after')
-// }
-
 function handleCustom() {
-    // let submitted = 0
     customOptions.removeAttribute('hidden')
-    // if (sizeInput.value !== '') {
-    //     console.log(sizeInput.value)
-    //     boardHeight = 9
-    //     boardWidth = 9
-    //     minesToPlace = 10
-    //     intro.setAttribute('hidden', true)
-    //     game.removeAttribute('hidden')
-    //     createBoard() 
-    // }
 }
 
 function handleCustomOptions() {
@@ -177,15 +162,6 @@ function handleCustomOptions() {
         mineOptions.removeAttribute('hidden')
         maxMines.innerText = `${(size * size) - 5}`
     }
-    
-    // else {
-    //     boardHeight = size
-    //     boardWidth = size
-    //     minesToPlace = 10
-    //     intro.setAttribute('hidden', true)
-    //     game.removeAttribute('hidden')
-    //     createBoard() 
-    // }
 }
 
 function handleCustomMineOptions() {
@@ -205,8 +181,6 @@ function handleCustomMineOptions() {
         createBoard() 
     }
 }
-// createBoard() 
-//creates the blank game boad once when loading the page
 
 
 //initiates the game
@@ -217,12 +191,11 @@ function init() {
     for (let i = 0; i < cells.length; i++) {
         cells[i].innerText = ''
         cells[i].setAttribute('data-mine', 0)
-        // cells[i].style.backgroundColor = 'lightgray'
-        // cells[i].style.color = 'black'
     }
     mineCount = 0
     flagCount = 0
     clickedSquares = 0
+    jsFlag = `${flagSymbol.innerText}`
     checked = []
     placeMines()
     winCount = cells.length - mineCount
@@ -242,14 +215,11 @@ function createBoard() {
             square.setAttribute('data-column', y)
             square.setAttribute('data-mine', 0)
             square.setAttribute('data-nearby-mine-cells', 0)
-            // row = square.getAttribute('row')
-            // console.log(row)
-            // console.log(square.getAttribute('mine'))
         }
     }
     board.style.gridTemplateRows = `repeat(${boardHeight}, ${65 / boardHeight}vmin)`
     board.style.gridTemplateColumns = `repeat(${boardWidth}, ${65 / boardHeight}vmin)`
-    board.style.fontSize = `${60 / boardWidth}vmin`
+    board.style.fontSize = `${50 / boardWidth}vmin`
     init()
 }
 
@@ -260,7 +230,7 @@ board.addEventListener('contextmenu', handleRightClick)
 
 //handle a left click
 function handleClick(evt) {
-    if (gameState !== 'playing' || evt.target.innerText === 'F' || evt.target.style.backgroundColor === 'gray') return
+    if (gameState !== 'playing' || evt.target.innerText == jsFlag || evt.target.style.backgroundColor === 'gray') return
     row = evt.target.getAttribute('data-row')
     column = evt.target.getAttribute('data-column')
     mine = evt.target.getAttribute('data-mine')
@@ -278,10 +248,6 @@ function handleClick(evt) {
     else {
         if (!checked.includes(evt.target)) checked.push(evt.target)
         setNumber(evt.target)
-        // clickedSquares++
-        // if (clickedSquares + checked.length === winCount) {
-        //     winner()
-        // }
     }
     checkForWinner()
 }
@@ -290,12 +256,12 @@ function handleClick(evt) {
 function handleRightClick(evt) {
     evt.preventDefault()
     if (gameState !== 'playing') return
-    if (evt.target.innerText !== 'F') {
-        evt.target.innerText = 'F'
+    if (evt.target.innerText != jsFlag) {
+        evt.target.innerText = jsFlag
         flagCount++
         
     }
-    else if (evt.target.innerText === 'F'){
+    else if (evt.target.innerText == jsFlag){
         evt.target.innerText = ''
         flagCount--
     }
@@ -313,7 +279,7 @@ function placeMines() {
             isMined = cells[i].getAttribute('data-mine')
             if(row == rngRow && column == rngColumn && isMined == 0) {
                 cells[i].setAttribute('data-mine', 1)
-                cells[i].innerText = 'M' /*---for testing purposes to see the mines*/
+                // cells[i].innerText = '💣' /*---for testing purposes to see the mines*/
                 mineCount++
                 break
             }
@@ -394,7 +360,7 @@ function bubble(cell) {
     setNumber(cell)
     neighbors = getNeighbors(cell)
     neighbors.forEach(function(neighbor) {
-        if (neighbor.getAttribute('data-mine') == 0 && neighbor.innerText !== 'F') {
+        if (neighbor.getAttribute('data-mine') == 0 && neighbor.innerText != jsFlag) {
             if (!checked.includes(neighbor)) {
                 bubbleSquares.push(neighbor)
             }
@@ -450,10 +416,10 @@ function getNeighbors(cell) {
 function gameOver() {
     gameState = 'Lost'
     for (let i = 0; i < cells.length; i++) {
-        if (cells[i].getAttribute('data-mine') == 1 && cells[i].innerText !== 'F') {
-            cells[i].innerText = 'M'
+        if (cells[i].getAttribute('data-mine') == 1 && cells[i].innerText != jsFlag) {
+            cells[i].innerText = '💣'
         }
-        if(cells[i].getAttribute('data-mine') != 1 && cells[i].innerText === 'F') {
+        if(cells[i].getAttribute('data-mine') != 1 && cells[i].innerText == jsFlag) {
             cells[i].innerText = 'X'
         }
     }
