@@ -24,6 +24,7 @@ body {
   --squares-border: 1px solid black;
   --hud-bg-color: lightgray;
   --hud-border:2px solid black;
+  --count-bg-color: black;
 }
 
 body.dark {
@@ -33,6 +34,7 @@ body.dark {
   --squares-border: 1px solid lightgray;
   --hud-bg-color: black;
   --hud-border:2px solid lightgray;
+  --count-bg-color: lightgray;
 }
 
 section#hud {
@@ -81,14 +83,17 @@ section.board {
 }
 
 #flag-count {
-  background-color: black;
-  border: 1px solid black;
+  background-color: var(--count-bg-color);
+  /* background-color: black; */
+  /* border: 1px solid black; */
   color: red;
   align-items: center;
   text-align: center;
   justify-content: center;
   height: 6vmin;
   width: 12vmin;
+  text-shadow: black;
+  font-weight: bolder;
 }
 
 #end-game-message {

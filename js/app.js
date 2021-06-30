@@ -357,5 +357,6 @@ function checkForWinner() {
 
 function winner() {
     gameState = 'Won'
+    end.removeAttribute('hidden')
     message.innerText = 'Congratulations! You win!'
 }
