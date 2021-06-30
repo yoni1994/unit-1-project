@@ -71,6 +71,8 @@ const squares = document.querySelectorAll('.squares')
 const cells = document.getElementsByClassName('squares')
 const replayBtn = document.querySelector('#reset')
 const flagCounter = document.querySelector('#flag-count')
+const end = document.querySelector('#end-section')
+const message = document.querySelector('#end-game-message')
 
 /*----------------------------- Event Listeners -----------------------------*/
 
@@ -88,6 +90,8 @@ createBoard()
 //initiates the game
 function init() {
     gameState = 'playing'
+    end.setAttribute('hidden', true)
+    message.innerText = ''
     for (let i = 0; i < cells.length; i++) {
         cells[i].innerText = ''
         cells[i].setAttribute('data-mine', 0)
@@ -328,6 +332,8 @@ function gameOver() {
             cells[i].innerText = 'X'
         }
     }
+    end.removeAttribute('hidden')
+    message.innerText = 'Oh no! You hit a mine!'
 }
 
 function checkForWinner() {
@@ -345,5 +351,5 @@ function checkForWinner() {
 
 function winner() {
     gameState = 'Won'
-    alert('congrats! you win!')
+    message.innerText = 'Congratulations! You win!'
 }
