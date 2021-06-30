@@ -21,6 +21,25 @@
             <button class="difficulty-btn" id="hard">Hard</button>
             <button class="difficulty-btn" id="custom">Custom</button>
         </section>
+        <section id="custom-size-options" hidden>
+            <section id="custom-text">
+                <h2>What size do you want the board to be?</h1>
+                <h3>Enter a number between 5 and 50 below to choose the number of cells</h2>
+                <h4>(height and width will be the same)</h3>
+            </section>
+            <h4 id="failed-input"></h4>
+            <input type="text" placeholder="Enter size of board" id="size-input">
+            <button id="custom-submit-btn">Start</button>
+        </section>
+        <section id="custom-mine-options" hidden>
+            <section id="custom-mine-text">
+                <h2>How many mines do you want?</h1>
+                <h3>Enter a number between 1 and <span id="max-mines"></span> below to choose the number of mines</h2>
+            </section>
+            <h4 id="failed-mine-input"></h4>
+            <input type="text" placeholder="Enter number of mines" id="mine-input">
+            <button id="custom-mine-submit-btn">Start</button>
+        </section>
 	</section>
     <section id="game" hidden>
         <section id="hud">

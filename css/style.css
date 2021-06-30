@@ -20,6 +20,7 @@ body {
   justify-content: center;
   height: 100vh;
   flex-direction: column;
+  text-align: center;
   --squares-bg-color: lightgray;
   --squares-border: 1px solid black;
   --hud-bg-color: lightgray;
@@ -119,4 +120,3 @@ section.board {
 #intro-light-dark-btn {
   width: 100px;
 }
-

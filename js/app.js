@@ -68,7 +68,7 @@ const colorScheme = {
 
 /*-------------------------------- Variables --------------------------------*/
 
-let flagCount, mine, mineCount, gameState, square, row, column, isMined, clickedSquares, checked, neighbors, boardHeight, boardWidth, minesToPlace
+let flagCount, mine, mineCount, gameState, square, row, column, isMined, clickedSquares, checked, neighbors, boardHeight, boardWidth, minesToPlace, size, mineChoice
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -85,8 +85,20 @@ const easy = document.querySelector('#easy')
 const medium = document.querySelector('#medium')
 const hard = document.querySelector('#hard')
 const custom = document.querySelector('#custom')
+const customOptions = document.querySelector('#custom-size-options')
+const mineOptions = document.querySelector('#custom-mine-options')
+const maxMines = document.querySelector('#max-mines')
+const customText = document.querySelector('#custom-text')
+const customMineText = document.querySelector('#custom-mine-text')
+const sizeInput = document.querySelector('#size-input')
+const mineInput = document.querySelector('#mine-input')
+const customBtn = document.querySelector('#custom-submit-btn')
+const mineBtn = document.querySelector('#custom-mine-submit-btn')
+const failedInput = document.querySelector('#failed-input')
+const failedMineInput = document.querySelector('#failed-mine-input')
 const intro = document.querySelector('#intro')
 const game = document.querySelector('#game')
+
 
 
 /*----------------------------- Event Listeners -----------------------------*/
@@ -100,6 +112,9 @@ easy.addEventListener('click', handleEasy)
 medium.addEventListener('click', handleMedium)
 hard.addEventListener('click', handleHard)
 custom.addEventListener('click', handleCustom)
+// sizeInput.addEventListener('submit', handleFormSubmit)
+customBtn.addEventListener('click', handleCustomOptions)
+mineBtn.addEventListener('click', handleCustomMineOptions)
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -131,15 +146,65 @@ function handleHard() {
     createBoard() 
 }
 
+// function handleFormSubmit(evt) {
+//     evt.preventDefault()
+//     console.log('after')
+// }
+
 function handleCustom() {
-    boardHeight = 9
-    boardWidth = 9
-    minesToPlace = 10
-    intro.setAttribute('hidden', true)
-    game.removeAttribute('hidden')
-    createBoard() 
+    // let submitted = 0
+    customOptions.removeAttribute('hidden')
+    // if (sizeInput.value !== '') {
+    //     console.log(sizeInput.value)
+    //     boardHeight = 9
+    //     boardWidth = 9
+    //     minesToPlace = 10
+    //     intro.setAttribute('hidden', true)
+    //     game.removeAttribute('hidden')
+    //     createBoard() 
+    // }
 }
 
+function handleCustomOptions() {
+    size = parseInt(sizeInput.value)
+    if (isNaN(size) || size < 5 || size > 50) {
+        sizeInput.value = ''
+        customText.setAttribute('hidden', true)
+        failedInput.innerText = 'Please choose a number between 5 and 50'
+    }
+    else {
+        customOptions.setAttribute('hidden', true)
+        mineOptions.removeAttribute('hidden')
+        maxMines.innerText = `${(size * size) - 5}`
+    }
+    
+    // else {
+    //     boardHeight = size
+    //     boardWidth = size
+    //     minesToPlace = 10
+    //     intro.setAttribute('hidden', true)
+    //     game.removeAttribute('hidden')
+    //     createBoard() 
+    // }
+}
+
+function handleCustomMineOptions() {
+    mineChoice = parseInt(mineInput.value)
+    console.log(mineChoice)
+    if (isNaN(mineChoice) || mineChoice < 1 || mineChoice > maxMines.innerText) {
+        mineInput.value = ''
+        customMineText.setAttribute('hidden', true)
+        failedMineInput.innerText = `Please choose a number between 1 and ${maxMines.innerText}`
+    }
+    else {
+        boardHeight = size
+        boardWidth = size
+        minesToPlace = mineChoice
+        intro.setAttribute('hidden', true)
+        game.removeAttribute('hidden')
+        createBoard() 
+    }
+}
 // createBoard() 
 //creates the blank game boad once when loading the page
 
