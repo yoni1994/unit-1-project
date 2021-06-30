@@ -123,8 +123,8 @@ function handleMedium() {
 }
 
 function handleHard() {
-    boardHeight = 16
-    boardWidth = 30
+    boardHeight = 22
+    boardWidth = 22
     minesToPlace = 99
     intro.setAttribute('hidden', true)
     game.removeAttribute('hidden')
@@ -168,8 +168,8 @@ function init() {
 
 //make a 10X10 board and set the row and column number for each square
 function createBoard() {
-    for (let x = 1; x < 11; x++) {
-        for (let y = 1; y < 11; y++) {
+    for (let x = 1; x < boardWidth + 1; x++) {
+        for (let y = 1; y < boardHeight + 1; y++) {
             square = document.createElement('div')
             board.appendChild(square)
             square.className = 'squares'
@@ -182,6 +182,9 @@ function createBoard() {
             // console.log(square.getAttribute('mine'))
         }
     }
+    board.style.gridTemplateRows = `repeat(${boardHeight}, ${65 / boardHeight}vmin)`
+    board.style.gridTemplateColumns = `repeat(${boardWidth}, ${65 / boardHeight}vmin)`
+    board.style.fontSize = `${60 / boardWidth}vmin`
     init()
 }
 
@@ -236,16 +239,16 @@ function handleRightClick(evt) {
 
 //places 15 mines in random cells
 function placeMines() {
-    while (mineCount < 12) {
-        let rngRow = Math.floor(Math.random() * 10) + 1;
-        let rngColumn = Math.floor(Math.random() * 10) + 1;
+    while (mineCount < minesToPlace) {
+        let rngRow = Math.floor(Math.random() * boardHeight) + 1;
+        let rngColumn = Math.floor(Math.random() * boardWidth) + 1;
         for (let i = 0; i < cells.length; i++) {
             row = cells[i].getAttribute('data-row')
             column = cells[i].getAttribute('data-column')
             isMined = cells[i].getAttribute('data-mine')
             if(row == rngRow && column == rngColumn && isMined == 0) {
                 cells[i].setAttribute('data-mine', 1)
-                // cells[i].innerText = 'M' /*---for testing purposes to see the mines*/
+                cells[i].innerText = 'M' /*---for testing purposes to see the mines*/
                 mineCount++
                 break
             }
@@ -273,7 +276,7 @@ function countMines(cell) {
         }
         const topMiddleCell = document.querySelector(`[data-row='${cellRow-1}'][data-column='${cellColumn}']`)
         if (topMiddleCell.getAttribute('data-mine') == 1) nearbyMines++
-        if (cellColumn != 10) {
+        if (cellColumn != boardWidth) {
             const topRightCell = document.querySelector(`[data-row='${cellRow-1}'][data-column='${cellColumn+1}']`)
             if (topRightCell.getAttribute('data-mine') == 1) nearbyMines++
         }
@@ -282,18 +285,18 @@ function countMines(cell) {
         const leftCell = document.querySelector(`[data-row='${cellRow}'][data-column='${cellColumn-1}']`)
         if (leftCell.getAttribute('data-mine') == 1) nearbyMines++
     }
-    if (cellColumn != 10) {
+    if (cellColumn != boardWidth) {
         const lightCell = document.querySelector(`[data-row='${cellRow}'][data-column='${cellColumn+1}']`)
         if (lightCell.getAttribute('data-mine') == 1) nearbyMines++
     }
-    if (cellRow !== 10) {
+    if (cellRow != boardHeight) {
         if (cellColumn != 1) {
             const bottomLeftCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn-1}']`)
             if (bottomLeftCell.getAttribute('data-mine') == 1) nearbyMines++
         }
         const bottomMiddleCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn}']`)
         if (bottomMiddleCell.getAttribute('data-mine') == 1) nearbyMines++
-        if (cellColumn != 10) {
+        if (cellColumn != boardWidth) {
             const bottomRightCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn+1}']`)
             if (bottomRightCell.getAttribute('data-mine') == 1) nearbyMines++
         }
@@ -350,7 +353,7 @@ function getNeighbors(cell) {
         }
         const topMiddleCell = document.querySelector(`[data-row='${cellRow-1}'][data-column='${cellColumn}']`)
         neighborCells.push(topMiddleCell)
-        if (cellColumn != 10) {
+        if (cellColumn != boardWidth) {
             const topRightCell = document.querySelector(`[data-row='${cellRow-1}'][data-column='${cellColumn+1}']`)
             neighborCells.push(topRightCell)
         }
@@ -359,18 +362,18 @@ function getNeighbors(cell) {
         const leftCell = document.querySelector(`[data-row='${cellRow}'][data-column='${cellColumn-1}']`)
         neighborCells.push(leftCell)
     }
-    if (cellColumn != 10) {
+    if (cellColumn != boardWidth) {
         const rightCell = document.querySelector(`[data-row='${cellRow}'][data-column='${cellColumn+1}']`)
         neighborCells.push(rightCell)
     }
-    if (cellRow !== 10) {
+    if (cellRow != boardHeight) {
         if (cellColumn != 1) {
             const bottomLeftCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn-1}']`)
             neighborCells.push(bottomLeftCell)
         }
         const bottomMiddleCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn}']`)
         neighborCells.push(bottomMiddleCell)
-        if (cellColumn != 10) {
+        if (cellColumn != boardWidth) {
             const bottomRightCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn+1}']`)
             neighborCells.push(bottomRightCell)
         }
