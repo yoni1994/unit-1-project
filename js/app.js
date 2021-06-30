@@ -62,7 +62,7 @@ tell score
 
 /*-------------------------------- Variables --------------------------------*/
 
-let flagCount, mine, mineCount, gameState, square, row, column, isMined, haveBubbled, nearbyCells, newBubbleRow, newBubbleColumn, clickedSquares
+let flagCount, mine, mineCount, gameState, square, row, column, isMined, haveBubbled, nearbyCells, newBubbleRow, newBubbleColumn, clickedSquares, checked, neighbors
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -95,9 +95,9 @@ function init() {
     mineCount = 0
     flagCount = 0
     clickedSquares = 0
+    checked = []
     placeMines()
     winCount = cells.length - mineCount
-    console.log(winCount)
     giveCellsNeighborValues()
     flagCounter.innerHTML = mineCount - flagCount
 }
@@ -140,13 +140,17 @@ function handleClick(evt) {
         evt.target.style.backgroundColor = 'red'
         gameOver()
     }
-    // else if (neighborMines == 0) {
-    //     bubble(evt.target)
-    // }
+    else if (neighborMines == 0) {
+        bubbleSquares = bubble(evt.target)
+        console.log(bubbleSquares)
+        bubbleSquares.forEach(function(bubbleSquare) {
+            setNumber(bubbleSquare)
+        })
+    }
     else {
+        if (!checked.includes(evt.target)) checked.push(evt.target)
         setNumber(evt.target)
         clickedSquares++
-        console.log(clickedSquares)
         if (clickedSquares === winCount) {
             winner()
         }
@@ -171,7 +175,7 @@ function handleRightClick(evt) {
 
 //places 15 mines in random cells
 function placeMines() {
-    while (mineCount < 20) {
+    while (mineCount < 8) {
         let rngRow = Math.floor(Math.random() * 10) + 1;
         let rngColumn = Math.floor(Math.random() * 10) + 1;
         for (let i = 0; i < cells.length; i++) {
@@ -214,12 +218,12 @@ function countMines(cell) {
         }
     }
     if (cellColumn != 1) {
-        const LeftCell = document.querySelector(`[data-row='${cellRow}'][data-column='${cellColumn-1}']`)
-        if (LeftCell.getAttribute('data-mine') == 1) nearbyMines++
+        const leftCell = document.querySelector(`[data-row='${cellRow}'][data-column='${cellColumn-1}']`)
+        if (leftCell.getAttribute('data-mine') == 1) nearbyMines++
     }
     if (cellColumn != 10) {
-        const RightCell = document.querySelector(`[data-row='${cellRow}'][data-column='${cellColumn+1}']`)
-        if (RightCell.getAttribute('data-mine') == 1) nearbyMines++
+        const lightCell = document.querySelector(`[data-row='${cellRow}'][data-column='${cellColumn+1}']`)
+        if (lightCell.getAttribute('data-mine') == 1) nearbyMines++
     }
     if (cellRow !== 10) {
         if (cellColumn != 1) {
@@ -254,42 +258,66 @@ function setNumber(cell) {
 
 
 
-// function bubble(cell) {
-    //     setNumber(cell)
-    //     let right, left, down, up
-    //     let cellRow = parseInt(cell.getAttribute('data-row'))
-    //     let cellColumn = parseInt(cell.getAttribute('data-column'))
-    //     let nearbyMines = cell.getAttribute('data-nearby-mine-cells')
-    //     if (nearbyMines == 0) {
-        //         if (cellRow < 10) {
-            //             console.log('test right')
-            //             console.log(cellRow)
-            //             let newCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn}']`)
-            //             bubble(newCell)
-            //             right = 'done'
-            //         }
-            //         else {
-                //             right = 'done'
-                //         }
-                //         if (right === 'done' && cellColumn < 10) {
-                    //             console.log('test down')
-                    //             let newCell = document.querySelector(`[data-row='${cellRow}'][data-column='${cellColumn+1}']`)
-                    //             bubble(newCell)
-                    //         }
-                    //         else if (cellRow > 1) {
-                        //             // console.log('test left')
-                        //             let newCell = document.querySelector(`[data-row='${cellRow-1}'][data-column='${cellColumn}']`)
-                        //             bubble(newCell)
-                        //         }
-                        //         else if (cellColumn > 1) {
-                            //             // console.log('test up')
-                            //             let newCell = document.querySelector(`[data-row='${cellRow}'][data-column='${cellColumn-1}']`)
-                            //             bubble(newCell)
-                            //         }
-                            //     }
-                            // }
-                            
-                            
+function bubble(cell) {
+    if (checked.includes(cell)) return []
+    checked.push(cell)
+    let bubbleSquares = []
+    setNumber(cell)
+    neighbors = getNeighbors(cell)
+    neighbors.forEach(function(neighbor) {
+        if (neighbor.getAttribute('data-mine') == 0 && neighbor.innerText !== 'F') {
+            if (!checked.includes(neighbor)) {
+                bubbleSquares.push(neighbor)
+            }
+            if (neighbor.getAttribute('data-nearby-mine-cells') == 0) {
+                bubbleSquares = bubbleSquares.concat(bubble(neighbor))
+            }
+        }
+
+    })
+    return bubbleSquares
+}
+
+function getNeighbors(cell) {
+    let neighborCells = []
+    let cellRow = parseInt(cell.getAttribute('data-row'))
+    let cellColumn = parseInt(cell.getAttribute('data-column'))
+    if (cellRow !== 1) {
+        if (cellColumn != 1) {
+            const topLeftCell = document.querySelector(`[data-row='${cellRow-1}'][data-column='${cellColumn-1}']`)
+            neighborCells.push(topLeftCell)
+        }
+        const topMiddleCell = document.querySelector(`[data-row='${cellRow-1}'][data-column='${cellColumn}']`)
+        neighborCells.push(topMiddleCell)
+        if (cellColumn != 10) {
+            const topRightCell = document.querySelector(`[data-row='${cellRow-1}'][data-column='${cellColumn+1}']`)
+            neighborCells.push(topRightCell)
+        }
+    }
+    if (cellColumn != 1) {
+        const leftCell = document.querySelector(`[data-row='${cellRow}'][data-column='${cellColumn-1}']`)
+        neighborCells.push(leftCell)
+    }
+    if (cellColumn != 10) {
+        const rightCell = document.querySelector(`[data-row='${cellRow}'][data-column='${cellColumn+1}']`)
+        neighborCells.push(rightCell)
+    }
+    if (cellRow !== 10) {
+        if (cellColumn != 1) {
+            const bottomLeftCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn-1}']`)
+            neighborCells.push(bottomLeftCell)
+        }
+        const bottomMiddleCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn}']`)
+        neighborCells.push(bottomMiddleCell)
+        if (cellColumn != 10) {
+            const bottomRightCell = document.querySelector(`[data-row='${cellRow+1}'][data-column='${cellColumn+1}']`)
+            neighborCells.push(bottomRightCell)
+        }
+    }
+    return neighborCells
+}
+
+
 function gameOver() {
     gameState = 'Lost'
     for (let i = 0; i < cells.length; i++) {
