@@ -68,7 +68,7 @@ const colorScheme = {
 
 /*-------------------------------- Variables --------------------------------*/
 
-let flagCount, mine, mineCount, gameState, square, row, column, isMined, clickedSquares, checked, neighbors
+let flagCount, mine, mineCount, gameState, square, row, column, isMined, clickedSquares, checked, neighbors, boardHeight, boardWidth, minesToPlace
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -79,19 +79,68 @@ const replayBtn = document.querySelector('#reset')
 const flagCounter = document.querySelector('#flag-count')
 const end = document.querySelector('#end-section')
 const message = document.querySelector('#end-game-message')
-const lightDarkBtn = document.querySelector('#light-dark-button')
+const introLightDarkBtn = document.querySelector('#intro-light-dark-btn')
+const gameLightDarkBtn = document.querySelector('#game-light-dark-btn')
+const easy = document.querySelector('#easy')
+const medium = document.querySelector('#medium')
+const hard = document.querySelector('#hard')
+const custom = document.querySelector('#custom')
+const intro = document.querySelector('#intro')
+const game = document.querySelector('#game')
+
 
 /*----------------------------- Event Listeners -----------------------------*/
 
 replayBtn.addEventListener('click', function() {
     document.location.reload(true)
 })
-lightDarkBtn.addEventListener('click', colorScheme.change)
+introLightDarkBtn.addEventListener('click', colorScheme.change)
+gameLightDarkBtn.addEventListener('click', colorScheme.change)
+easy.addEventListener('click', handleEasy)
+medium.addEventListener('click', handleMedium)
+hard.addEventListener('click', handleHard)
+custom.addEventListener('click', handleCustom)
 
 /*-------------------------------- Functions --------------------------------*/
 
 
-createBoard() 
+function handleEasy() {
+    boardHeight = 9
+    boardWidth = 9
+    minesToPlace = 10
+    intro.setAttribute('hidden', true)
+    game.removeAttribute('hidden')
+    createBoard() 
+}
+
+function handleMedium() {
+    boardHeight = 16
+    boardWidth = 16
+    minesToPlace = 40
+    intro.setAttribute('hidden', true)
+    game.removeAttribute('hidden')
+    createBoard() 
+}
+
+function handleHard() {
+    boardHeight = 16
+    boardWidth = 30
+    minesToPlace = 99
+    intro.setAttribute('hidden', true)
+    game.removeAttribute('hidden')
+    createBoard() 
+}
+
+function handleCustom() {
+    boardHeight = 9
+    boardWidth = 9
+    minesToPlace = 10
+    intro.setAttribute('hidden', true)
+    game.removeAttribute('hidden')
+    createBoard() 
+}
+
+// createBoard() 
 //creates the blank game boad once when loading the page
 
 

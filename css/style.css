@@ -25,6 +25,7 @@ body {
   --hud-bg-color: lightgray;
   --hud-border:2px solid black;
   --count-bg-color: black;
+  --difficulty-btn-bg-color: lightgray
 }
 
 body.dark {
@@ -103,3 +104,19 @@ section.board {
 #replay-message {
   text-align: center;
 }
+
+#difficulty {
+  display: flex;
+  flex-direction: column;
+}
+
+.difficulty-btn {
+  margin: 10px 0;
+  height: 30px;
+  /* background-color: var(--difficulty-btn-bg-color); */
+}
+
+#intro-light-dark-btn {
+  width: 100px;
+}
+

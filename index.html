@@ -9,14 +9,29 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <section id="hud">
-        <div id="flag-count"></div>
-        <button id="reset" type="reset">😊</button>
-        <!-- <div id="timer">timer</div> -->
-        <button id="light-dark-button">Dark Mode</button>
-    </section>
-    <section class="board">
-        
+    <section id="intro">
+        <section id="intro-dark-btn">
+            <button id="intro-light-dark-btn">Dark Mode</button>
+        </section>
+		<h1>Welcome to Minesweeper!</h1>
+        <h1>Please select a difficulty</h1>
+        <section id="difficulty">
+            <button class="difficulty-btn" id="easy">Easy</button>
+            <button class="difficulty-btn" id="medium">Medium</button>
+            <button class="difficulty-btn" id="hard">Hard</button>
+            <button class="difficulty-btn" id="custom">Custom</button>
+        </section>
+	</section>
+    <section id="game" hidden>
+        <section id="hud">
+            <div id="flag-count"></div>
+            <button id="reset" type="reset">😊</button>
+            <!-- <div id="timer">timer</div> -->
+            <button id="game-light-dark-btn">Dark Mode</button>
+        </section>
+        <section class="board">
+            
+        </section>
     </section>
     <section id="end-section" hidden>
         <h1 id="end-game-message"></h1>
