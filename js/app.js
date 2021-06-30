@@ -62,7 +62,7 @@ tell score
 
 /*-------------------------------- Variables --------------------------------*/
 
-let flagCount, mine, mineCount, gameState, square, row, column, isMined, haveBubbled, nearbyCells, newBubbleRow, newBubbleColumn, clickedSquares, checked, neighbors
+let flagCount, mine, mineCount, gameState, square, row, column, isMined, clickedSquares, checked, neighbors
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -74,7 +74,9 @@ const flagCounter = document.querySelector('#flag-count')
 
 /*----------------------------- Event Listeners -----------------------------*/
 
-replayBtn.addEventListener('click', init)
+replayBtn.addEventListener('click', function() {
+    document.location.reload(true)
+})
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -129,8 +131,6 @@ board.addEventListener('contextmenu', handleRightClick)
 
 //handle a left click
 function handleClick(evt) {
-    nearbyCells = []
-    haveBubbled = 0
     if (gameState !== 'playing' || evt.target.innerText === 'F' || evt.target.style.backgroundColor === 'gray') return
     row = evt.target.getAttribute('data-row')
     column = evt.target.getAttribute('data-column')
@@ -142,7 +142,6 @@ function handleClick(evt) {
     }
     else if (neighborMines == 0) {
         bubbleSquares = bubble(evt.target)
-        console.log(bubbleSquares)
         bubbleSquares.forEach(function(bubbleSquare) {
             setNumber(bubbleSquare)
         })
@@ -150,11 +149,12 @@ function handleClick(evt) {
     else {
         if (!checked.includes(evt.target)) checked.push(evt.target)
         setNumber(evt.target)
-        clickedSquares++
-        if (clickedSquares === winCount) {
-            winner()
-        }
+        // clickedSquares++
+        // if (clickedSquares + checked.length === winCount) {
+        //     winner()
+        // }
     }
+    checkForWinner()
 }
 
 //handle a left click and place a flag
@@ -175,7 +175,7 @@ function handleRightClick(evt) {
 
 //places 15 mines in random cells
 function placeMines() {
-    while (mineCount < 8) {
+    while (mineCount < 12) {
         let rngRow = Math.floor(Math.random() * 10) + 1;
         let rngColumn = Math.floor(Math.random() * 10) + 1;
         for (let i = 0; i < cells.length; i++) {
@@ -184,7 +184,7 @@ function placeMines() {
             isMined = cells[i].getAttribute('data-mine')
             if(row == rngRow && column == rngColumn && isMined == 0) {
                 cells[i].setAttribute('data-mine', 1)
-                cells[i].innerText = 'M' /*---for testing purposes to see the mines*/
+                // cells[i].innerText = 'M' /*---for testing purposes to see the mines*/
                 mineCount++
                 break
             }
@@ -329,6 +329,19 @@ function gameOver() {
         }
     }
 }
+
+function checkForWinner() {
+    let grayCount = 0
+    for (let i = 0; i < cells.length; i++) {
+        if (cells[i].style.backgroundColor === 'gray') grayCount++
+        console.log(grayCount)
+    }
+    console.log(grayCount, winCount)
+    if (grayCount == winCount) {
+        winner()
+    }
+}
+
 
 function winner() {
     gameState = 'Won'
