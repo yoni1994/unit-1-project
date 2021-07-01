@@ -12,7 +12,8 @@ html {
 }
   
 body {
-  background-color: white;
+  background: url(../images/sahara-desert-tour-day.jpeg) white;
+  background-size: cover;
   display: flex;
   font-family: sans-serif;
   margin: 0;
@@ -30,8 +31,9 @@ body {
 }
 
 body.dark {
-  background-color: navy;
-  color: lightgray;
+  background: url(../images/inline_image_preview.jpeg) navy;
+  background-size: cover;
+  color: white;
   --squares-bg-color: black;
   --squares-border: 1px solid lightgray;
   --hud-bg-color: black;
@@ -120,3 +122,4 @@ section.board {
 #intro-light-dark-btn {
   width: 100px;
 }
+
