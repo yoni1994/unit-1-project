@@ -33,7 +33,6 @@ body {
 
 body.dark {
   background: url(../images/night-desert.jpeg);
-  /* background: url(../images/night-oasis.png); */
   background-color: navy;
   background-size: cover;
   color: white;
@@ -48,7 +47,6 @@ body.dark {
 section#hud {
   background-color: var(--hud-bg-color);
   border: var(--hud-border);
-  /* background-color: lightgrey; */
   display: flex;
   flex: 25% 25% 25% 25%;
   width: 65vmin;
@@ -56,24 +54,18 @@ section#hud {
   text-align: center;
   align-items: center;
   justify-content: center;
-  /* border: 2px solid black; */
   border-bottom: 1px;
   font-size: 4vmin;
 }
 
 section.board {
   display: grid;
-  /* grid-template-rows: repeat(10, 7.5vmin);
-  grid-template-columns: repeat(10, 7.5vmin); */
   grid-gap: 0vmin;
 }
   
 .squares {
   background-color: var(--squares-bg-color);
-  /* background-color: lightgrey; */
   border: var(--squares-border);
-  /* border: 1px solid black; */
-  /* font-size: 7vmin; */
   text-align: center;
   vertical-align: middle;
   align-items: center;
@@ -92,8 +84,6 @@ section.board {
 
 #flag-count {
   background-color: var(--count-bg-color);
-  /* background-color: black; */
-  /* border: 1px solid black; */
   color: red;
   align-items: center;
   text-align: center;
@@ -104,16 +94,6 @@ section.board {
   font-weight: bolder;
 }
 
-/* #end-game-message {
-  text-align: center;
-  color: white;
-} */
-
-/* #replay-message {
-  text-align: center;
-  color: white;
-} */
-
 #difficulty {
   display: flex;
   flex-direction: column;
@@ -122,7 +102,6 @@ section.board {
 .difficulty-btn {
   margin: 10px 0;
   height: 30px;
-  /* background-color: var(--difficulty-btn-bg-color); */
 }
 
 #intro-light-dark-btn {
@@ -138,7 +117,3 @@ img {
   height: 100px;
   width: 100px;
 }
-
-/* #end-section {
-
-} */
