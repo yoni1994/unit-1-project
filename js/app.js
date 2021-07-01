@@ -62,6 +62,7 @@ const colorScheme = {
     change: function() {
         colorScheme.dark = colorScheme.dark ? '' : 'dark'
         document.querySelector('body').setAttribute('class', colorScheme.dark)
+        colorScheme.dark ? introLightDarkBtn.innerText = 'Light Mode' : introLightDarkBtn.innerText = 'Dark Mode'
     }
 }
 
@@ -73,7 +74,6 @@ let flagCount, mine, mineCount, gameState, square, row, column, isMined, clicked
 /*------------------------ Cached Element References ------------------------*/
 
 const board = document.querySelector('.board')
-// const squares = document.querySelectorAll('.squares')
 const cells = document.getElementsByClassName('squares')
 const replayBtn = document.querySelector('#reset')
 const flagCounter = document.querySelector('#flag-count')
@@ -450,6 +450,7 @@ function winner() {
     gameState = 'Won'
     end.removeAttribute('hidden')
     message.innerText = 'Congratulations! You win!'
+    document.body.style.background = "url('../images/ad1014e9de4fa12824fb12322ec18597.jpeg')"
 }
 
 
