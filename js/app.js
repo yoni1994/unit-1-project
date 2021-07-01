@@ -1,4 +1,5 @@
 /*-------------------------------- Constants --------------------------------*/
+//change from dark mode to light mode and back
 const colorScheme = {
     dark: '',
     change: function() {
@@ -48,11 +49,10 @@ const winSection = document.querySelector('#win-section')
 const endResetBtnSection = document.querySelector('#end-reset-btn')
 const endResetBtn = document.querySelector('#end-reset')
 
-
-
 /*----------------------------- Event Listeners -----------------------------*/
 
 replayBtn.addEventListener('click', reset)
+endResetBtn.addEventListener('click', reset)
 introLightDarkBtn.addEventListener('click', colorScheme.change)
 gameLightDarkBtn.addEventListener('click', colorScheme.change)
 easy.addEventListener('click', handleEasy)
@@ -62,15 +62,15 @@ custom.addEventListener('click', handleCustom)
 customBtn.addEventListener('click', handleCustomOptions)
 mineBtn.addEventListener('click', handleCustomMineOptions)
 continueBtn.addEventListener('click', handleContinue)
-endResetBtn.addEventListener('click', reset)
 
 /*-------------------------------- Functions --------------------------------*/
 
-
+//reset game
 function reset() {
     document.location.reload(true)
 }
 
+//set up easy game
 function handleEasy() {
     boardHeight = 9
     boardWidth = 9
@@ -80,6 +80,7 @@ function handleEasy() {
     createBoard() 
 }
 
+//set up medium game
 function handleMedium() {
     boardHeight = 16
     boardWidth = 16
@@ -89,6 +90,7 @@ function handleMedium() {
     createBoard() 
 }
 
+//set up hard game
 function handleHard() {
     boardHeight = 22
     boardWidth = 22
@@ -98,10 +100,12 @@ function handleHard() {
     createBoard() 
 }
 
+//open custom choices dropdown
 function handleCustom() {
     customOptions.removeAttribute('hidden')
 }
 
+//let user choose custom board size
 function handleCustomOptions() {
     size = parseInt(sizeInput.value)
     if (isNaN(size) || size < 5 || size > 30) {
@@ -116,6 +120,7 @@ function handleCustomOptions() {
     }
 }
 
+//let user choose custom mine number
 function handleCustomMineOptions() {
     mineChoice = parseInt(mineInput.value)
     console.log(mineChoice)
@@ -157,7 +162,7 @@ function init() {
 }
 
 
-//make a 10X10 board and set the row and column number for each square
+//make a height X width board and set the row and column number for each square
 function createBoard() {
     for (let x = 1; x < boardWidth + 1; x++) {
         for (let y = 1; y < boardHeight + 1; y++) {
@@ -226,7 +231,7 @@ function handleRightClick(evt) {
     flagCounter.innerHTML = mineCount - flagCount
 }
 
-//places 15 mines in random cells
+//places minesToPlace # of mines in random cells
 function placeMines() {
     while (mineCount < minesToPlace) {
         let rngRow = Math.floor(Math.random() * boardHeight) + 1;
@@ -237,7 +242,7 @@ function placeMines() {
             isMined = cells[i].getAttribute('data-mine')
             if(row == rngRow && column == rngColumn && isMined == 0) {
                 cells[i].setAttribute('data-mine', 1)
-                cells[i].innerText = '💣' /*---for testing purposes to see the mines*/
+                // cells[i].innerText = '💣' /*---for testing purposes to see the mines*/
                 mineCount++
                 break
             }
@@ -245,6 +250,7 @@ function placeMines() {
     }
 }
 
+//set number to be revealed when cell is clicked
 function giveCellsNeighborValues() {
     for (let i = 0; i < cells.length; i++) {
         cells[i].setAttribute('data-nearby-mine-cells', countMines(cells[i]))
@@ -252,7 +258,7 @@ function giveCellsNeighborValues() {
 }
 
 
-
+//counts number of mines surrounding a cell
 function countMines(cell) {
     let nearbyMines = 0
     let cellRow = parseInt(cell.getAttribute('data-row'))
@@ -293,7 +299,7 @@ function countMines(cell) {
     return nearbyMines
 }
 
-
+//puts the number of mines in the cell (visibly)
 function setNumber(cell) {
     let surroundingMines = cell.getAttribute('data-nearby-mine-cells')
     cell.innerText = surroundingMines
@@ -310,7 +316,7 @@ function setNumber(cell) {
 }
 
 
-
+//when a cell with no surrounding mines is clicked, this opens an area until the outer cells all have numbers
 function bubble(cell) {
     if (checked.includes(cell)) return []
     checked.push(cell)
@@ -331,6 +337,7 @@ function bubble(cell) {
     return bubbleSquares
 }
 
+//get the neighboring cells
 function getNeighbors(cell) {
     let neighborCells = []
     let cellRow = parseInt(cell.getAttribute('data-row'))
@@ -370,7 +377,7 @@ function getNeighbors(cell) {
     return neighborCells
 }
 
-
+//render a game over
 function gameOver() {
     gameState = 'Lost'
     for (let i = 0; i < cells.length; i++) {
@@ -381,11 +388,11 @@ function gameOver() {
             cells[i].innerText = 'X'
         }
     }
-    // game.setAttribute('hidden', true)
     end.removeAttribute('hidden')
     message.innerText = 'Oh no! You hit a mine!'
 }
 
+//check to see if they won
 function checkForWinner() {
     let grayCount = 0
     for (let i = 0; i < cells.length; i++) {
@@ -396,14 +403,14 @@ function checkForWinner() {
     }
 }
 
-
+//render a win
 function winner() {
     gameState = 'Won'
-    // game.setAttribute('hidden', true)
     end.removeAttribute('hidden')
     message.innerText = 'Congratulations! You win!'
 }
 
+//move to next endgame screen
 function handleContinue() {
     if (gameState === 'Won') {
         game.setAttribute('hidden', true)
