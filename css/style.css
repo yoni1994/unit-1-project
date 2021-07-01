@@ -23,7 +23,7 @@ body {
   flex-direction: column;
   text-align: center;
   --squares-bg-color: lightgray;
-  --squares-border: 1px solid black;
+  --squares-border: 2px solid black;
   --hud-bg-color: lightgray;
   --hud-border:2px solid black;
   --count-bg-color: black;
@@ -35,7 +35,7 @@ body.dark {
   background-size: cover;
   color: white;
   --squares-bg-color: black;
-  --squares-border: 1px solid lightgray;
+  --squares-border: 2px solid lightgray;
   --hud-bg-color: black;
   --hud-border:2px solid lightgray;
   --count-bg-color: lightgray;
@@ -102,10 +102,12 @@ section.board {
 
 #end-game-message {
   text-align: center;
+  color: white;
 }
 
 #replay-message {
   text-align: center;
+  color: white;
 }
 
 #difficulty {
@@ -123,3 +125,7 @@ section.board {
   width: 100px;
 }
 
+#game-light-dark-btn {
+  height: 6vmin;
+  width: 6vmin;
+}

@@ -68,7 +68,7 @@ const colorScheme = {
 
 /*-------------------------------- Variables --------------------------------*/
 
-let flagCount, mine, mineCount, gameState, square, row, column, isMined, clickedSquares, checked, neighbors, boardHeight, boardWidth, minesToPlace, size, mineChoice, jsFlag
+let flagCount, mine, mineCount, gameState, square, row, column, isMined, clickedSquares, checked, neighbors, boardHeight, boardWidth, minesToPlace, size, mineChoice, jsFlag, boardSize
 
 /*------------------------ Cached Element References ------------------------*/
 
@@ -192,6 +192,7 @@ function init() {
         cells[i].innerText = ''
         cells[i].setAttribute('data-mine', 0)
     }
+    boardSize = boardWidth * boardHeight
     mineCount = 0
     flagCount = 0
     clickedSquares = 0
@@ -230,7 +231,7 @@ board.addEventListener('contextmenu', handleRightClick)
 
 //handle a left click
 function handleClick(evt) {
-    if (gameState !== 'playing' || evt.target.innerText == jsFlag || evt.target.style.backgroundColor === 'gray') return
+    if (gameState !== 'playing' || evt.target.innerText == jsFlag || checked.includes(evt.target)) return
     row = evt.target.getAttribute('data-row')
     column = evt.target.getAttribute('data-column')
     mine = evt.target.getAttribute('data-mine')
@@ -259,7 +260,9 @@ function handleRightClick(evt) {
     if (gameState !== 'playing') return
     if (evt.target.innerText != jsFlag) {
         evt.target.innerText = jsFlag
-        evt.target.style.fontSize = '1.5vmin'
+        if (boardSize >=150) {
+            evt.target.style.fontSize = '1.5vmin'
+        }
         flagCount++
         
     }
