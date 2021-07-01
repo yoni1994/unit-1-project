@@ -100,6 +100,9 @@ const intro = document.querySelector('#intro')
 const game = document.querySelector('#game')
 const flagSymbol = document.querySelector('#flag-symbol')
 const body = document.querySelector('#entire-body')
+const continueBtn = document.querySelector('#continue-btn')
+const lossSection = document.querySelector('#loss-section')
+const winSection = document.querySelector('#win-section')
 
 
 
@@ -116,6 +119,7 @@ hard.addEventListener('click', handleHard)
 custom.addEventListener('click', handleCustom)
 customBtn.addEventListener('click', handleCustomOptions)
 mineBtn.addEventListener('click', handleCustomMineOptions)
+continueBtn.addEventListener('click', handleContinue)
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -203,7 +207,6 @@ function init() {
     winCount = cells.length - mineCount
     giveCellsNeighborValues()
     flagCounter.innerHTML = mineCount - flagCount
-    if (body.style.backgroundColor == 'url(../images/inline_image_preview.jpeg)') console.log('yes')
 }
 
 
@@ -287,7 +290,7 @@ function placeMines() {
             isMined = cells[i].getAttribute('data-mine')
             if(row == rngRow && column == rngColumn && isMined == 0) {
                 cells[i].setAttribute('data-mine', 1)
-                // cells[i].innerText = '💣' /*---for testing purposes to see the mines*/
+                cells[i].innerText = '💣' /*---for testing purposes to see the mines*/
                 mineCount++
                 break
             }
@@ -431,6 +434,7 @@ function gameOver() {
             cells[i].innerText = 'X'
         }
     }
+    // game.setAttribute('hidden', true)
     end.removeAttribute('hidden')
     message.innerText = 'Oh no! You hit a mine!'
 }
@@ -448,9 +452,22 @@ function checkForWinner() {
 
 function winner() {
     gameState = 'Won'
+    // game.setAttribute('hidden', true)
     end.removeAttribute('hidden')
     message.innerText = 'Congratulations! You win!'
-    document.body.style.background = "url('../images/ad1014e9de4fa12824fb12322ec18597.jpeg')"
 }
 
-
+function handleContinue() {
+    if (gameState === 'Won') {
+        game.setAttribute('hidden', true)
+        end.setAttribute('hidden', true)
+        winSection.removeAttribute('hidden')
+    }
+    else if (gameState === 'Lost') {
+        game.setAttribute('hidden', true)
+        end.setAttribute('hidden', true)
+        lossSection.removeAttribute('hidden')
+        document.body.style.background = "url('../images/night-oasis.png')"
+        document.body.style.backgroundSize = 'cover'
+    }
+}

@@ -12,7 +12,7 @@ html {
 }
   
 body {
-  background: url(../images/sahara-desert-tour-day.jpeg) white;
+  background: url(../images/day-desert.jpeg) white;
   background-size: cover;
   display: flex;
   font-family: sans-serif;
@@ -32,7 +32,8 @@ body {
 }
 
 body.dark {
-  background: url(../images/inline_image_preview.jpeg);
+  background: url(../images/night-desert.jpeg);
+  /* background: url(../images/night-oasis.png); */
   background-color: navy;
   background-size: cover;
   color: white;
@@ -103,15 +104,15 @@ section.board {
   font-weight: bolder;
 }
 
-#end-game-message {
+/* #end-game-message {
   text-align: center;
   color: white;
-}
+} */
 
-#replay-message {
+/* #replay-message {
   text-align: center;
   color: white;
-}
+} */
 
 #difficulty {
   display: flex;
@@ -137,3 +138,7 @@ img {
   height: 100px;
   width: 100px;
 }
+
+/* #end-section {
+
+} */
