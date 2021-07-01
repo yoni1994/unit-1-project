@@ -1,61 +1,3 @@
-/* Minesweeper Pseudocode
-
-define variables to track the game (flag, mine, mineCount, gameState)
-
-store cached elements
-create buttons for difficulty and reset
-
-
-Page features:
-game board grid
-difficulty buttons
-game reset button
-remaining mine counter (goes down when placing a flag)
-timer going up
-(optional) button to place flags with left click
-
-
-
-Gameplay:
-Ask user for diffuclty (easy, medium, hard)
-generate board with size based on difficulty
-(optional) add custom game size and/or custom mine number
-randomly place mines (number based on difficulty)
-
-user can left click to open square
-user can right click to put a flag on square
-if square is clicked, check if it has a mine
-
-if there is a mine, render a game over, let user restart
-
-gameOver()
-show all remaining mines
-show crossed-out mines where flags were incorrectly placed
-change gameState to loss
-allow no more clicks
-
-if no mine, check adjacent squares for mines and add to mineCount
-then show minecount on clicked square
-
-if no nearby mines, open all other squares with a mineCount of 0 that directly connect to this square
-and show the minecount on all surrounding squares
-
-if all non-mine squares are open render a win
-
-win()
-fill remaining unopened mine squares with flags
-render win message
-give option to play again
-(optional) giv eoption of same difficulty vs full reset to difficulty choice
-tell score
-(optional) confetti or some other victory celebration
-(optional add score to high score board)
-
-
-(optional) make high score board
-*/
-
-
 /*-------------------------------- Constants --------------------------------*/
 const colorScheme = {
     dark: '',
@@ -103,14 +45,14 @@ const body = document.querySelector('#entire-body')
 const continueBtn = document.querySelector('#continue-btn')
 const lossSection = document.querySelector('#loss-section')
 const winSection = document.querySelector('#win-section')
+const endResetBtnSection = document.querySelector('#end-reset-btn')
+const endResetBtn = document.querySelector('#end-reset')
 
 
 
 /*----------------------------- Event Listeners -----------------------------*/
 
-replayBtn.addEventListener('click', function() {
-    document.location.reload(true)
-})
+replayBtn.addEventListener('click', reset)
 introLightDarkBtn.addEventListener('click', colorScheme.change)
 gameLightDarkBtn.addEventListener('click', colorScheme.change)
 easy.addEventListener('click', handleEasy)
@@ -120,9 +62,14 @@ custom.addEventListener('click', handleCustom)
 customBtn.addEventListener('click', handleCustomOptions)
 mineBtn.addEventListener('click', handleCustomMineOptions)
 continueBtn.addEventListener('click', handleContinue)
+endResetBtn.addEventListener('click', reset)
 
 /*-------------------------------- Functions --------------------------------*/
 
+
+function reset() {
+    document.location.reload(true)
+}
 
 function handleEasy() {
     boardHeight = 9
@@ -462,12 +409,17 @@ function handleContinue() {
         game.setAttribute('hidden', true)
         end.setAttribute('hidden', true)
         winSection.removeAttribute('hidden')
+        endResetBtnSection.removeAttribute('hidden')
+        colorScheme.dark ? document.body.style.background = "url('../images/night-oasis.png')" : document.body.style.background = "url('../images/day-oasis.jpeg')"
+        document.body.style.backgroundSize = 'cover'
     }
     else if (gameState === 'Lost') {
         game.setAttribute('hidden', true)
         end.setAttribute('hidden', true)
         lossSection.removeAttribute('hidden')
-        document.body.style.background = "url('../images/night-oasis.png')"
+        endResetBtnSection.removeAttribute('hidden')
+        console.log(colorScheme.dark)
+        colorScheme.dark ? document.body.style.background = "url('../images/night-explosion.jpeg')" : document.body.style.background = "url('../images/day-explosion.png')"
         document.body.style.backgroundSize = 'cover'
     }
 }
