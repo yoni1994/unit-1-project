@@ -11,4 +11,4 @@ Screenshots:
   
 Technologies used: Javascript, HTML, CSS
   
-Next steps: Add further functionality and make it look nice. Maybe add themes, as well
+Next steps: Add further functionality and make it look nice. Maybe add themes, sounds, or animations as well

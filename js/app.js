@@ -152,15 +152,15 @@ function handleCustom() {
 
 function handleCustomOptions() {
     size = parseInt(sizeInput.value)
-    if (isNaN(size) || size < 5 || size > 50) {
+    if (isNaN(size) || size < 5 || size > 30) {
         sizeInput.value = ''
         customText.setAttribute('hidden', true)
-        failedInput.innerText = 'Please choose a number between 5 and 50'
+        failedInput.innerText = 'Please choose a number between 5 and 30'
     }
     else {
         customOptions.setAttribute('hidden', true)
         mineOptions.removeAttribute('hidden')
-        maxMines.innerText = `${(size * size) - 5}`
+        maxMines.innerText = `${Math.floor((size * size) / 1.5)}`
     }
 }
 
@@ -255,14 +255,17 @@ function handleClick(evt) {
 //handle a left click and place a flag
 function handleRightClick(evt) {
     evt.preventDefault()
+    if (checked.includes(evt.target)) return
     if (gameState !== 'playing') return
     if (evt.target.innerText != jsFlag) {
         evt.target.innerText = jsFlag
+        evt.target.style.fontSize = '1.5vmin'
         flagCount++
         
     }
     else if (evt.target.innerText == jsFlag){
         evt.target.innerText = ''
+        evt.target.style.fontSize = 'inherit'
         flagCount--
     }
     flagCounter.innerHTML = mineCount - flagCount
@@ -443,3 +446,5 @@ function winner() {
     end.removeAttribute('hidden')
     message.innerText = 'Congratulations! You win!'
 }
+
+
