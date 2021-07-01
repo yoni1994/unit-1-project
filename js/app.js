@@ -99,6 +99,7 @@ const failedMineInput = document.querySelector('#failed-mine-input')
 const intro = document.querySelector('#intro')
 const game = document.querySelector('#game')
 const flagSymbol = document.querySelector('#flag-symbol')
+const body = document.querySelector('#entire-body')
 
 
 
@@ -202,6 +203,7 @@ function init() {
     winCount = cells.length - mineCount
     giveCellsNeighborValues()
     flagCounter.innerHTML = mineCount - flagCount
+    if (body.style.backgroundColor == 'url(../images/inline_image_preview.jpeg)') console.log('yes')
 }
 
 

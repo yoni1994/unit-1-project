@@ -22,6 +22,7 @@ body {
   height: 100vh;
   flex-direction: column;
   text-align: center;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
   --squares-bg-color: lightgray;
   --squares-border: 2px solid black;
   --hud-bg-color: lightgray;
@@ -31,9 +32,11 @@ body {
 }
 
 body.dark {
-  background: url(../images/inline_image_preview.jpeg) navy;
+  background: url(../images/inline_image_preview.jpeg);
+  background-color: navy;
   background-size: cover;
   color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   --squares-bg-color: black;
   --squares-border: 2px solid lightgray;
   --hud-bg-color: black;
@@ -129,3 +132,9 @@ section.board {
   height: 6vmin;
   width: 6vmin;
 }
+
+img {
+  height: 100px;
+  width: 100px;
+}
+
