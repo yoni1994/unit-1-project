@@ -2,6 +2,7 @@
 
 <Minesweeper> 
 Try to open all the safe spaces on the board. Be careful, if you hit a mine, it's game over.
+For a history on mines and their use in war, click here [explosives mines](https://en.wikipedia.org/wiki/Explosive_mine)
   
 
 ## Getting Started:
