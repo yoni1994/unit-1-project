@@ -30,4 +30,4 @@ Click on any square to start. If you don't hit a mine, a number will appear. Thi
 * Git
   
 ## Next steps: 
-Adding more efficient code, as well as potentially adding sounds and animations
+Adding more efficient code, better mobile compaability, and potentially adding sounds and animations
