@@ -177,6 +177,7 @@ function createBoard() {
     init()
 }
 
+//places minesToPlace # of mines in random cells
 function placeMines() {
     while (mineCount < minesToPlace) {
         let rngRow = Math.floor(Math.random() * boardHeight) + 1;
@@ -244,7 +245,6 @@ function handleRightClick(evt) {
     flagCounter.innerHTML = mineCount - flagCount
 }
 
-//places minesToPlace # of mines in random cells
 
 //set number to be revealed when cell is clicked
 function giveCellsNeighborValues() {
