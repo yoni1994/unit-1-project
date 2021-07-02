@@ -386,6 +386,7 @@ function gameOver() {
         }
         if(cells[i].getAttribute('data-mine') != 1 && cells[i].innerText == jsFlag) {
             cells[i].innerText = 'X'
+            cells[i].style.fontSize = 'inherit'
         }
     }
     end.removeAttribute('hidden')
